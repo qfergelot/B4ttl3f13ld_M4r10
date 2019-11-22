@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "object.h": "c",
+        "debug.h": "c",
+        "missile.h": "c",
+        "sprite.h": "c",
+        "timer.h": "c",
+        "graphics.h": "c",
+        "generator.h": "c",
+        "stdlib.h": "c",
+        "bad.h": "c"
+    },
+    "C_Cpp.dimInactiveRegions": false
+}
