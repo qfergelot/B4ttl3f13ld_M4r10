@@ -7,11 +7,12 @@
 #include "timer.h"
 #include "collision.h"
 
+#include "mario.h"
 #include "debug.h"
-#include "bird.h"
+
 #include "tree.h"
 #include "explosion.h"
-#include "bad.h"
+
 
 
 extern struct list_head all_objects;

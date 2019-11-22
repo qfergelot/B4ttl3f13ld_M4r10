@@ -1,9 +1,6 @@
 #ifndef OBJECT_IS_DEF
 #define OBJECT_IS_DEF
 
-#define RIGHT 1
-#define LEFT 0
-
 #include <SDL.h>
 #include "sprite.h"
 #include "list.h"
@@ -13,12 +10,11 @@
 typedef SDL_TimerID timer_id_t;
 
     enum {
-        OBJECT_TYPE_BIRD,
+        OBJECT_TYPE_MARIO,
         OBJECT_TYPE_MISSILE,
         OBJECT_TYPE_EXPLOSION,
         OBJECT_TYPE_TEXT,
         OBJECT_TYPE_TREE,
-        OBJECT_TYPE_BADBIRD,
         __OBJECT_TYPE_NUM
     };
 
@@ -41,6 +37,7 @@ typedef SDL_TimerID timer_id_t;
         int xs, ys;
 
         int direction; // 0 = left, 1 = right
+        int direction_factor;   // -1 = left, 1 = right
         int anim_step;
         int reverse;
 
@@ -49,12 +46,15 @@ typedef SDL_TimerID timer_id_t;
 
         int cooldown;
         int cd_count;
+        int shoot_offset;
 
         int state_of_blink;
 
         float val_sin;
         int opacity;
         int zoom;
+
+        int in_movement;
 
         timer_id_t timer_id;
 

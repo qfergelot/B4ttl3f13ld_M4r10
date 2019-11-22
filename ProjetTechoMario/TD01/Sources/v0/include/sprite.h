@@ -13,12 +13,11 @@
 
 	} sprite_t;
 
-	extern sprite_t bird_sprite;
+	extern sprite_t mario_sprite;
 	extern sprite_t tree_background_sprite[3];
 	extern sprite_t cloud_background_sprite;
 	extern sprite_t missile_sprite;
 	extern sprite_t explosion_sprite;
-	extern sprite_t badbird_sprite;
 	extern sprite_t text_ouch_sprite;
 
 	// Initialize sprite_t global variables for each sprite

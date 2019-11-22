@@ -14,8 +14,8 @@ int collide(dynamic_object_t* obj1, dynamic_object_t* obj2){
     if (obj1->type == obj2->type) return 0;
     if (obj1->type == OBJECT_TYPE_EXPLOSION || obj2->type == OBJECT_TYPE_EXPLOSION) return 0;
     if (obj1->type == OBJECT_TYPE_TEXT || obj2->type == OBJECT_TYPE_TEXT) return 0;
-    if ((obj1->type == OBJECT_TYPE_BIRD && obj2->type != OBJECT_TYPE_BADBIRD) || (obj2->type == OBJECT_TYPE_BIRD && obj1->type != OBJECT_TYPE_BADBIRD)) return 0;
-    if ((obj1->type == OBJECT_TYPE_BIRD && obj1->state == OBJECT_STATE_DEAD) || (obj2->type == OBJECT_TYPE_BIRD && obj2->state == OBJECT_STATE_DEAD)) return 0;
+    if ((obj1->type == OBJECT_TYPE_MARIO && obj2->type == OBJECT_TYPE_MISSILE) || (obj2->type == OBJECT_TYPE_MARIO && obj1->type == OBJECT_TYPE_MISSILE)) return 0;
+    if ((obj1->type == OBJECT_TYPE_MARIO && obj1->state == OBJECT_STATE_DEAD) || (obj2->type == OBJECT_TYPE_MARIO && obj2->state == OBJECT_STATE_DEAD)) return 0;
     return (hitbox_width(obj1, obj2) && hitbox_height(obj1, obj2));
 }
 

@@ -8,13 +8,13 @@
 #include "graphics.h"
 #include "error.h"
 #include "debug.h"
-#include "bird.h"
+#include "mario.h"
 #include "tree.h"
 #include "animation.h"
 #include "missile.h"
 #include "object.h"
 #include "generator.h"
-#include "bad.h"
+
 
 #define DEFAULT_BACKGROUND_SKIN  "trees"
 
@@ -81,7 +81,7 @@ int main (int argc, char **argv)
   graphics_init (render_flags, (skin ? skin : DEFAULT_BACKGROUND_SKIN));
   object_init();
   animation_init();
-  gen_tim = generator_init();
+  //gen_tim = generator_init();
 
 
   const Uint8 *keystates = SDL_GetKeyboardState (NULL);
@@ -99,7 +99,7 @@ int main (int argc, char **argv)
 
         case SDL_QUIT:
     	    // If user closes the window
-          generator_clean(gen_tim);
+          //generator_clean(gen_tim);
 	        quit = 1;
 	        break;
 
@@ -108,7 +108,7 @@ int main (int argc, char **argv)
           switch (evt.key.keysym.sym) {
             case SDLK_ESCAPE:
               // ESC : we quit!
-              generator_clean(gen_tim);
+              //generator_clean(gen_tim);
               quit = 1;
               break;
 

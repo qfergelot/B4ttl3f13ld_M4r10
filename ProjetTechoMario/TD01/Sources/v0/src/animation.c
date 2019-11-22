@@ -6,15 +6,15 @@ LIST_HEAD(all_objects); //struct list_head all_objects = { &(all_objects), &(all
 
 
 void animation_init (void){
-    create_bird();
+    create_mario();
     create_trees();
 
-    animation_mobile_object_add (&bird_obj);
+    animation_mobile_object_add (&mario_obj);
 }
 
 
 void animation_one_step (int left, int right, int up, int down, int space){
-    animation_bird_moves(&bird_obj, up, down, space);
+    animation_mario_moves(&mario_obj, left, right, up, space);
     // Dans la liste des obj, pour chaque obj lancer la ligne
     // object_class[obj->type].animate_func(&obj)
     for_all_objects (obj)
@@ -33,8 +33,7 @@ void animation_one_step (int left, int right, int up, int down, int space){
                 if (obj->type == OBJECT_TYPE_MISSILE){
                     animation_explosion_from_missile_add (obj);
                 }
-                if (obj->type == OBJECT_TYPE_BIRD) animation_timer_add(obj, 100);
-                else animation_mobile_object_del(obj);
+                animation_mobile_object_del(obj);
             }
         }
     }
@@ -66,7 +65,7 @@ void animation_mobile_object_del (dynamic_object_t *obj){
 void animation_clean (void){
     for_all_objects (obj)
     {
-        if (obj->type != OBJECT_TYPE_BIRD){
+        if (obj->type != OBJECT_TYPE_MARIO){
             animation_mobile_object_del(obj);
         }
     }
