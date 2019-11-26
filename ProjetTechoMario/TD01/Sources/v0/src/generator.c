@@ -1,18 +1,11 @@
 #include <stdlib.h>
 #include <time.h>
-#include "bad.h"
+
 #include "generator.h"
 #include "constants.h"
 
 time_t t;
 
-void generate_badbird(void* a){
-    int height = rand()%WIN_HEIGHT;
-    int xs = (rand()%4) + 2;
-    xs -= 2*xs;
-    float vs = rand()%2 - 1;
-    animation_badbird_add(height, xs, vs);
-}
 
 Uint32 callback_gen(Uint32 delay, void* param){
     SDL_Event event;
@@ -20,7 +13,7 @@ Uint32 callback_gen(Uint32 delay, void* param){
 
     userevent.type = SDL_USEREVENT;
     userevent.code = 0;
-    userevent.data1 = &generate_badbird;
+    userevent.data1 = NULL;
     userevent.data2 = param;
 
     event.type = SDL_USEREVENT;
@@ -28,7 +21,6 @@ Uint32 callback_gen(Uint32 delay, void* param){
 
     SDL_PushEvent(&event);
 
-    delay = (rand()%1500) + 500;
     return(delay);
 }
 

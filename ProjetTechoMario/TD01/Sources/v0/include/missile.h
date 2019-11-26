@@ -6,7 +6,7 @@
 #include "sprite.h"
 #include "animation.h"
 #include "debug.h"
-#include "bird.h"
+
 
     //dynamic_object_t* create_missile(void);
 
