@@ -57,8 +57,8 @@ void graphics_render_object (dynamic_object_t *obj)
   src.w = (obj->sprite)->display_width;
   src.h = (obj->sprite)->display_height;
 
-  dst.x = obj->x;
-  dst.y = obj->y;
+  dst.x = obj->x_screen;
+  dst.y = obj->y_screen;
   dst.w = (obj->sprite)->display_width / obj->zoom;
   dst.h = (obj->sprite)->display_height / obj->zoom;
 
@@ -69,21 +69,29 @@ void graphics_render_object (dynamic_object_t *obj)
 }
 
 
-void graphics_render_scrolling_trees (dynamic_object_t *tree, int factor)
+void graphics_render_scrolling_object (dynamic_object_t *tree, int factor)
 {
 
   SDL_Rect dst;
 
   dst.x = tree->xs;
-  tree->xs -= X_SPEED_BIRD/factor;
-  tree->xs %= tree->sprite->native_width;
+
+  if ((mario_obj.x_screen == LEFT_LIMIT_SCROLLING && mario_obj.direction == LEFT) || (mario_obj.x_screen == RIGHT_LIMIT_SCROLLING && mario_obj.direction == RIGHT)){
+    tree->xs -= mario_obj.xs/factor;
+    tree->xs %= tree->sprite->native_width;
+  }
+
   dst.y = 0;
   dst.w = (tree->sprite)->display_width;
   dst.h = (tree->sprite)->display_height;
 
-  while(dst.x<=WIN_WIDTH){
+  while(dst.x <= WIN_WIDTH){
     SDL_RenderCopy (ren, tree->sprite->texture, NULL, &dst);
     dst.x += (tree->sprite)->native_width;
+  }
+  while(dst.x > 0){
+    dst.x -= (tree->sprite)->native_width;
+    SDL_RenderCopy (ren, tree->sprite->texture, NULL, &dst);
   }
 }
 
@@ -94,7 +102,7 @@ void graphics_render (void)
   Uint32 begin, end, interm;
 
   begin = SDL_GetTicks ();
-  
+
   // We clear the renderer's buffer
   SDL_RenderClear (ren);
 

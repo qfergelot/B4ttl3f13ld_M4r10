@@ -32,7 +32,8 @@ typedef SDL_TimerID timer_id_t;
         // can be OBJECT_STATE_NORMAL, ...
         int state;
         // position
-        int x, y;
+        int x_screen, y_screen;
+        int x_map, y_map;
         // speed
         int xs, ys;
 
@@ -40,9 +41,6 @@ typedef SDL_TimerID timer_id_t;
         int direction_factor;   // -1 = left, 1 = right
         int anim_step;
         int reverse;
-
-        int cmp_rest;
-        int resting_toggle;
 
         int cooldown;
         int cd_count;

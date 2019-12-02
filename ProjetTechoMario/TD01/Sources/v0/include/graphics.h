@@ -12,6 +12,7 @@
 #include "animation.h"
 
 #include "sprite.h"
+#include "mario.h"
 
 #include "tree.h"
 

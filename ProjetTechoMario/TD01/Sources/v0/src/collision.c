@@ -3,11 +3,11 @@
 //si le point en bas a droite ou en bas a gauche de l'obj2 est entre les 2 points en bas du obj1 -> true
 //point entre deux points -> si xgobj1<xobj2<xdobj1
 int hitbox_width(dynamic_object_t* obj1, dynamic_object_t* obj2){
-    return (obj1->x < obj2->x && obj2->x < obj1->x + obj1->sprite->display_width);
+    return (obj1->x_map < obj2->x_map && obj2->x_map < obj1->x_map + obj1->sprite->display_width);
 }
 
 int hitbox_height(dynamic_object_t* obj1, dynamic_object_t* obj2){
-    return (obj1->y < obj2->y && obj2->y < obj1->y + obj1->sprite->display_height);
+    return (obj1->y_map < obj2->y_map && obj2->y_map < obj1->y_map + obj1->sprite->display_height);
 }
 
 int collide(dynamic_object_t* obj1, dynamic_object_t* obj2){

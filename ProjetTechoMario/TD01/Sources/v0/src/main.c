@@ -14,6 +14,7 @@
 #include "missile.h"
 #include "object.h"
 #include "generator.h"
+#include "map.h"
 
 
 #define DEFAULT_BACKGROUND_SKIN  "trees"
@@ -81,6 +82,7 @@ int main (int argc, char **argv)
   graphics_init (render_flags, (skin ? skin : DEFAULT_BACKGROUND_SKIN));
   object_init();
   animation_init();
+  map_new(MAP_WIDTH, MAP_HEIGHT);
   //gen_tim = generator_init();
 
 

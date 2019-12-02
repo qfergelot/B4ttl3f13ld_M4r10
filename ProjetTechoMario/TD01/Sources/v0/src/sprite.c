@@ -31,7 +31,7 @@ void sprite_create(SDL_Renderer *ren, sprite_t *sp, char* path, int width, int h
 
 void sprite_init (SDL_Renderer *ren, char *background_skin){
 
-    sprite_create(ren, &mario_sprite, "../images/mario.png", 171, 228, 62, LEFT);
+    sprite_create(ren, &mario_sprite, "../images/mario2.png", 64, 128, 11, RIGHT);
 
     for (int i = 0; i<3; i++){
         sprintf (name, "../images/%s-%d.png", background_skin, i);

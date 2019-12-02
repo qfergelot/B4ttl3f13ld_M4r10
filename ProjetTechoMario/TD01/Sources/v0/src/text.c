@@ -6,14 +6,14 @@
             exit_with_error("Not Enough Memory\n");
 
         PRINT_DEBUG('m', "Malloc done on object %p\n", text_obj);
-        object_object_init (text_obj, &text_ouch_sprite, OBJECT_TYPE_TEXT, OBJECT_STATE_IN_AIR, obj->x , obj->y, -1, 0, RIGHT, 0);
+        object_object_init (text_obj, &text_ouch_sprite, OBJECT_TYPE_TEXT, OBJECT_STATE_IN_AIR, obj->x_screen , obj->y_screen, -1, 0, RIGHT, 0);
         text_obj->zoom = 5;
         animation_mobile_object_add (text_obj);
     }
 
     int animation_text_onestep (dynamic_object_t *obj){
         if (obj->opacity <= 1) return 1;
-        obj->x += obj->xs;
+        obj->x_screen += obj->xs;
         SDL_SetTextureAlphaMod(obj->sprite->texture, obj->opacity-=2);
         return 0;
     }

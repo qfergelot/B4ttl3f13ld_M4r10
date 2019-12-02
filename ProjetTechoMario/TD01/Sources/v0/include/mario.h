@@ -6,6 +6,7 @@
 #include "constants.h"
 #include "missile.h"
 #include "sprite.h"
+#include "map.h"
 #include "missile.h"
 #include "timer.h"
 

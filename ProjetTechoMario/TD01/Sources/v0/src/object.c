@@ -36,8 +36,10 @@ void object_object_init (dynamic_object_t *obj, sprite_t *sp, int type, int stat
     obj->sprite = sp;
     obj->type = type;
     obj->state = state;
-    obj->x = x;
-    obj->y = y;
+    obj->x_screen = x;
+    obj->x_map = x;
+    obj->y_screen = y;
+    obj->y_map = y;
     obj->xs = xs;
     obj->ys = ys;
     obj->direction = direction;
@@ -46,8 +48,8 @@ void object_object_init (dynamic_object_t *obj, sprite_t *sp, int type, int stat
         obj->direction_factor = 1;
     if (obj->direction == LEFT)
         obj->direction_factor = -1;
-    obj->cmp_rest = 0;
-    obj->resting_toggle = 1;
+
+
     obj->cooldown = cooldown;
     obj->cd_count = 0;
     obj->shoot_offset = sp->display_width/2;
