@@ -3,10 +3,7 @@
 #include "object.h"
 
 
-#include "missile.h"
-#include "explosion.h"
 
-#include "text.h"
 
 object_type_t object_class [6];
 
@@ -29,6 +26,12 @@ void object_init (void){
     object_class[OBJECT_TYPE_MISSILE].dead_func = animation_missile_dead;
     object_class[OBJECT_TYPE_EXPLOSION].dead_func = NULL;
     object_class[OBJECT_TYPE_TEXT].dead_func = NULL;
+}
+
+void static_object_init(static_object_t *obj, sprite_t *sp, int state){
+    obj->sprite = sp;
+    obj->state = state;
+    obj->anim_step = 0;
 }
 
 

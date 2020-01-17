@@ -43,6 +43,7 @@ void usage (int val)
 
 int main (int argc, char **argv)
 {
+
   Uint32 render_flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
   char *debug_flags = NULL;
 

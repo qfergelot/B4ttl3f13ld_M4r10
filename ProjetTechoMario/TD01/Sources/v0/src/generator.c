@@ -2,7 +2,6 @@
 #include <time.h>
 
 #include "generator.h"
-#include "constants.h"
 
 time_t t;
 

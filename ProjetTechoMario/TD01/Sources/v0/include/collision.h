@@ -1,5 +1,5 @@
-#ifndef BADBIRD_IS_DEF
-#define BADBIRD_IS_DEF
+#ifndef COLLISION_IS_DEF
+#define COLLISION_IS_DEF
 
 #include "object.h"
 #include "list.h"

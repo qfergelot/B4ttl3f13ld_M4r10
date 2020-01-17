@@ -16,7 +16,7 @@ void animation_init (void){
 
 
 void animation_one_step (int left, int right, int up, int down, int space){
-    animation_mario_moves(&mario_obj, left, right, up, space);
+    animation_mario_moves(&mario_obj, left, right, up, down, space);
     // Dans la liste des obj, pour chaque obj lancer la ligne
     // object_class[obj->type].animate_func(&obj)
     for_all_objects (obj)

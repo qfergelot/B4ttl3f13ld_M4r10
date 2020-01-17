@@ -28,7 +28,7 @@ void animation_dead_mario (dynamic_object_t* obj){
     animation_text_add(obj);
 }
 
-void animation_mario_moves (dynamic_object_t *obj, int left, int right, int up, int space){
+void animation_mario_moves (dynamic_object_t *obj, int left, int right, int up, int down, int space){
 
     if (obj->state != OBJECT_STATE_DEAD){
         obj->xs = 0;
@@ -50,7 +50,7 @@ void animation_mario_moves (dynamic_object_t *obj, int left, int right, int up, 
 
             if(up && obj->state == OBJECT_STATE_NORMAL){
                 obj->state = OBJECT_STATE_IN_AIR;
-                obj->ys = -22;
+                obj->ys = MARIO_JUMP_IMPULSE;
             }
         }
 
@@ -62,7 +62,7 @@ void animation_mario_moves (dynamic_object_t *obj, int left, int right, int up, 
 
         //Taking Damage
         if (obj->y_screen == 0 ){
-            animation_dead_mario(obj);
+            //animation_dead_mario(obj);
         }
 
     }
@@ -88,24 +88,24 @@ int animation_mario_onestep (dynamic_object_t *obj ){
         obj->state = OBJECT_STATE_NORMAL;
     }
 
-    //TODO FAIRE UN xmap
-
     //Limites Artificielles(BLOCKS)
-
-    if (map[obj->x_map/BLOCK_SIZE][(obj->y_map + obj->ys + obj->sprite->display_height)/BLOCK_SIZE + 1 ] == MAP_OBJECT_SOLID){
-        //if (obj->y_map + obj->ys > BLOCK_SIZE){
-            //obj->y_screen = WIN_HEIGHT - obj->sprite->display_height - BLOCK_SIZE;
-            obj->ys = 0;
-            obj->state = OBJECT_STATE_NORMAL;
-        //}
+    if (map_get(obj->x_map/BLOCK_SIZE, (obj->y_map + obj->ys + obj->sprite->display_height)/BLOCK_SIZE + 1 ) == MAP_OBJECT_SOLID){
+        obj->ys = 0;
+        obj->state = OBJECT_STATE_NORMAL;
     }
 
-    if(map[(obj->x_map + obj->xs)/BLOCK_SIZE][obj->y_map/BLOCK_SIZE] == MAP_OBJECT_SOLID || map[(obj->x_map + obj->xs + obj->sprite->display_width)/BLOCK_SIZE][obj->y_map/BLOCK_SIZE] == MAP_OBJECT_SOLID){
+    else if (map_get(obj->x_map/BLOCK_SIZE, (obj->y_map + obj->ys + obj->sprite->display_height)/BLOCK_SIZE + 1 ) == MAP_OBJECT_SEMI_SOLID && obj->ys > 0){
+        obj->ys = 0;
+        obj->state = OBJECT_STATE_NORMAL;
+    }
+    else obj->state = OBJECT_STATE_IN_AIR;
+
+    if(map_get((obj->x_map + obj->xs)/BLOCK_SIZE, obj->y_map/BLOCK_SIZE) == MAP_OBJECT_SOLID || map_get((obj->x_map + obj->xs + obj->sprite->display_width)/BLOCK_SIZE, obj->y_map/BLOCK_SIZE) == MAP_OBJECT_SOLID){
         obj-> xs = 0;
     }
 
-    printf("%d, %d\n", obj->x_screen, obj->y_screen);
-    printf("%d, %d\n\n", obj->x_map, obj->y_map);
+    //printf("%d, %d\n", obj->x_screen, obj->y_screen);
+    //printf("%d, %d\n\n", obj->x_map, obj->y_map);
 
     obj->y_screen += obj->ys;
     obj->x_screen += obj->xs;
@@ -113,7 +113,7 @@ int animation_mario_onestep (dynamic_object_t *obj ){
     obj->y_map += obj->ys;
 
     //Limites Physiques
-    if (obj->y_screen <0) obj->y_screen = 0;
+    //if (obj->y_screen < 0) obj->y_screen = 0;
 
     if (obj->y_screen > WIN_HEIGHT - obj->sprite->display_height) obj->y_screen = WIN_HEIGHT - obj->sprite->display_height;
 
@@ -129,21 +129,7 @@ int animation_mario_onestep (dynamic_object_t *obj ){
     if (obj->in_movement){
         obj->anim_step++;
         obj->anim_step %= obj->sprite->nb_images;
-        // if (obj->reverse){
-        //     obj->anim_step--;
-        //     if (obj->anim_step == 0){
-        //         obj->reverse--;
-        //     }
-        // }
-        // else {
-        //     obj->anim_step++;
-        //     if (obj->anim_step % obj->sprite->nb_images == 0){
-        //         obj->reverse++;
-        //         obj->anim_step--;
-        //     }
-        // }
     }
-
 
     //Cooldaown missile
     if (obj->cd_count > 0){

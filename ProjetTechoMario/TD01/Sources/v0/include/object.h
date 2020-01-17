@@ -4,6 +4,10 @@
 #include <SDL.h>
 #include "sprite.h"
 #include "list.h"
+#include "missile.h"
+#include "explosion.h"
+
+#include "text.h"
 
 
 
@@ -24,6 +28,25 @@ typedef SDL_TimerID timer_id_t;
         OBJECT_STATE_DESTROYED,
         OBJECT_STATE_DEAD
     };
+
+    enum {
+        AIR,
+        WALL,
+        GROUND,
+        FLOOR,
+        GRASS,
+        FLOWER,
+        FLOWER2,
+        HERB
+    };
+
+    typedef struct _stat_obj{
+        sprite_t *sprite;
+        int state;
+        int anim_step;
+    } static_object_t;
+
+    static_object_t* static_object[BLOCK_NUMBER];
 
     typedef struct _dyn_obj {
         sprite_t *sprite;
@@ -81,6 +104,8 @@ typedef SDL_TimerID timer_id_t;
     // Initialize the object_class array
     void object_init (void);
 
+    // Initialize fields of s_object obj
+    void static_object_init (static_object_t *obj, sprite_t *sp, int state);
     // Initialize fields of object obj
     void object_object_init (dynamic_object_t *obj, sprite_t *sp, int type, int state, int x, int y, int xs, int ys, int direction, int cooldown);
 

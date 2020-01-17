@@ -17,3 +17,4 @@
         SDL_SetTextureAlphaMod(obj->sprite->texture, obj->opacity-=2);
         return 0;
     }
+    

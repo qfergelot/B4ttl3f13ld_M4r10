@@ -1,5 +1,5 @@
-#ifndef TIMER_IS_DEF
-#define TIMER_IS_DEF
+#ifndef TEXT_IS_DEF
+#define TEXT_IS_DEF
 
 #include "object.h"
 #include "animation.h"

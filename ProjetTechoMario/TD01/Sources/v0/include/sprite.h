@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include "error.h"
 #include "constants.h"
+#include "graphics.h"
 
 	typedef struct {
 		SDL_Texture *texture;
@@ -21,7 +22,9 @@
 	extern sprite_t text_ouch_sprite;
 
 	// Initialize sprite_t global variables for each sprite
-	void sprite_init (SDL_Renderer *ren, char *background_skin);
+	void sprite_init (char *background_skin);
+
+	void sprite_create(sprite_t *sp, char* path, int width, int height, int nb_images, int direction);
 
 	// Destroys
 	void sprite_clean (void);

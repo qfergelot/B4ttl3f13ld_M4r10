@@ -16,7 +16,7 @@ void graphics_init (Uint32 render_flags, char *background_skin)
   atexit (graphics_clean);
 
   // Create main window
-  win = SDL_CreateWindow ("Flappy Bird", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+  win = SDL_CreateWindow ("847723$1329 #4610", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 			  WIN_WIDTH, WIN_HEIGHT, SDL_WINDOW_SHOWN);
   if (win == NULL)
     exit_with_error ("SDL_CreateWindow");
@@ -68,30 +68,62 @@ void graphics_render_object (dynamic_object_t *obj)
 
 }
 
+void graphics_render_static_object(static_object_t* obj, int x_map, int y_map){
 
-void graphics_render_scrolling_object (dynamic_object_t *tree, int factor)
+  int x_screen = x_map * BLOCK_SIZE;
+  int y_screen = y_map * BLOCK_SIZE;
+
+  SDL_Rect src, dst;
+  if (obj == NULL)
+    printf("nul\n");
+
+  if(obj->sprite == NULL)
+    printf("NUL2\n");
+    
+  printf("%d, %d\n", obj->sprite->native_width, obj->sprite->native_height);
+
+  int nb_img_ligne = ((obj->sprite)->native_width/(obj->sprite)->display_width);
+  int nb_img_col = ((obj->sprite)->native_height/(obj->sprite)->display_height);
+
+  src.x = (obj->sprite)->display_width * (obj->anim_step % nb_img_ligne);
+  src.y = (obj->sprite)->display_height * (obj->anim_step / nb_img_col %nb_img_col );
+  src.w = (obj->sprite)->display_width;
+  src.h = (obj->sprite)->display_height;
+
+  dst.x = x_screen;
+  dst.y = y_screen;
+  dst.w = (obj->sprite)->display_width;
+  dst.h = (obj->sprite)->display_height;
+
+
+  SDL_RenderCopyEx(ren, (obj->sprite)->texture, &src, &dst, 0, NULL, 0);
+
+}
+
+
+void graphics_render_scrolling_object (dynamic_object_t *obj, int factor)
 {
 
   SDL_Rect dst;
 
-  dst.x = tree->xs;
+  dst.x = obj->xs;
 
-  if ((mario_obj.x_screen == LEFT_LIMIT_SCROLLING && mario_obj.direction == LEFT) || (mario_obj.x_screen == RIGHT_LIMIT_SCROLLING && mario_obj.direction == RIGHT)){
-    tree->xs -= mario_obj.xs/factor;
-    tree->xs %= tree->sprite->native_width;
+  if ((mario_obj.x_screen == LEFT_LIMIT_SCROLLING) || (mario_obj.x_screen == RIGHT_LIMIT_SCROLLING)){
+    obj->xs -= mario_obj.xs/factor;
+    obj->xs %= obj->sprite->native_width;
   }
 
   dst.y = 0;
-  dst.w = (tree->sprite)->display_width;
-  dst.h = (tree->sprite)->display_height;
+  dst.w = (obj->sprite)->display_width;
+  dst.h = (obj->sprite)->display_height;
 
   while(dst.x <= WIN_WIDTH){
-    SDL_RenderCopy (ren, tree->sprite->texture, NULL, &dst);
-    dst.x += (tree->sprite)->native_width;
+    SDL_RenderCopy (ren, obj->sprite->texture, NULL, &dst);
+    dst.x += (obj->sprite)->native_width;
   }
   while(dst.x > 0){
-    dst.x -= (tree->sprite)->native_width;
-    SDL_RenderCopy (ren, tree->sprite->texture, NULL, &dst);
+    dst.x -= (obj->sprite)->native_width;
+    SDL_RenderCopy (ren, obj->sprite->texture, NULL, &dst);
   }
 }
 
@@ -102,16 +134,16 @@ void graphics_render (void)
   Uint32 begin, end, interm;
 
   begin = SDL_GetTicks ();
-
-  // We clear the renderer's buffer
+    // We clear the renderer's buffer
   SDL_RenderClear (ren);
-
   // We display the background clouds
   graphics_render_background (&cloud_background_sprite);
 
+  //We display the static objects
+  map_render_objects();
+
   // We display the dynamics objects
   animation_render_objects();
-
 
   interm = SDL_GetTicks ();
 
