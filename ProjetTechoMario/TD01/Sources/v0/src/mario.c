@@ -1,12 +1,17 @@
 #include "mario.h"
 #include "text.h"
 #include "constants.h"
+#include "missile.h"
+//#include "sprite.h"
+#include "map.h"
+#include "timer.h"
+#include "animation.h"
 
 
 dynamic_object_t mario_obj;
 
 void create_mario(void){
-    object_object_init (&mario_obj, &mario_sprite, OBJECT_TYPE_MARIO, OBJECT_STATE_IN_AIR, 64, 1, 0, 0, RIGHT, 13);
+    object_object_init (&mario_obj, &mario_sprite, OBJECT_TYPE_MARIO, OBJECT_STATE_IN_AIR, 67, 10, 0, 0, RIGHT, 13);
 }
 
 void animation_mario_timer_expired (dynamic_object_t *obj){
@@ -78,29 +83,32 @@ void animation_mario_moves (dynamic_object_t *obj, int left, int right, int up, 
 }
 
 int animation_mario_onestep (dynamic_object_t *obj ){
+
     //Gestion du saut
-    if (obj->state == OBJECT_STATE_IN_AIR && obj->ys < 0){
+
+    if (obj->state == OBJECT_STATE_IN_AIR && obj->ys == 0){
         obj->ys += 1;
     }
-    else if (obj->state == OBJECT_STATE_IN_AIR)
+    else if (obj->state == OBJECT_STATE_IN_AIR){
         obj->ys += 1;
-    if(obj->y_screen + obj->sprite->display_height >= WIN_HEIGHT){
-        obj->state = OBJECT_STATE_NORMAL;
     }
 
+    /*if(obj->y_screen + obj->sprite->display_height >= WIN_HEIGHT){
+        obj->state = OBJECT_STATE_NORMAL;
+    }*/
+
     //Limites Artificielles(BLOCKS)
-    if (map_get(obj->x_map/BLOCK_SIZE, (obj->y_map + obj->ys + obj->sprite->display_height)/BLOCK_SIZE + 1 ) == MAP_OBJECT_SOLID){
+    if (get_state_of_map_object(map_get(obj->x_map/BLOCK_SIZE, (obj->y_map + obj->ys + obj->sprite->display_height)/BLOCK_SIZE )) == MAP_OBJECT_SOLID){
         obj->ys = 0;
         obj->state = OBJECT_STATE_NORMAL;
     }
-
-    else if (map_get(obj->x_map/BLOCK_SIZE, (obj->y_map + obj->ys + obj->sprite->display_height)/BLOCK_SIZE + 1 ) == MAP_OBJECT_SEMI_SOLID && obj->ys > 0){
+    else if (get_state_of_map_object(map_get(obj->x_map/BLOCK_SIZE, (obj->y_map + obj->ys + obj->sprite->display_height)/BLOCK_SIZE  )) == MAP_OBJECT_SEMI_SOLID && obj->ys > 0){
         obj->ys = 0;
         obj->state = OBJECT_STATE_NORMAL;
     }
     else obj->state = OBJECT_STATE_IN_AIR;
 
-    if(map_get((obj->x_map + obj->xs)/BLOCK_SIZE, obj->y_map/BLOCK_SIZE) == MAP_OBJECT_SOLID || map_get((obj->x_map + obj->xs + obj->sprite->display_width)/BLOCK_SIZE, obj->y_map/BLOCK_SIZE) == MAP_OBJECT_SOLID){
+    if(get_state_of_map_object(map_get((obj->x_map + obj->xs)/BLOCK_SIZE, obj->y_map/BLOCK_SIZE)) == MAP_OBJECT_SOLID || get_state_of_map_object(map_get((obj->x_map + obj->xs + obj->sprite->display_width)/BLOCK_SIZE, obj->y_map/BLOCK_SIZE)) == MAP_OBJECT_SOLID){
         obj-> xs = 0;
     }
 
@@ -115,7 +123,7 @@ int animation_mario_onestep (dynamic_object_t *obj ){
     //Limites Physiques
     //if (obj->y_screen < 0) obj->y_screen = 0;
 
-    if (obj->y_screen > WIN_HEIGHT - obj->sprite->display_height) obj->y_screen = WIN_HEIGHT - obj->sprite->display_height;
+    //if (obj->y_screen > WIN_HEIGHT - obj->sprite->display_height) obj->y_screen = WIN_HEIGHT - obj->sprite->display_height;
 
     if (obj->x_screen < LEFT_LIMIT_SCROLLING) obj->x_screen = LEFT_LIMIT_SCROLLING;
 

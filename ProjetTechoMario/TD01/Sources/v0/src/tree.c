@@ -1,5 +1,7 @@
 
 #include "tree.h"
+#include "sprite.h"
+#include "constants.h"
 
 
 dynamic_object_t tree_obj[3];

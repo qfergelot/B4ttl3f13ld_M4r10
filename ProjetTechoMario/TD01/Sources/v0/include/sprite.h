@@ -1,9 +1,9 @@
 #ifndef SPRITE_IS_DEF
 #define SPRITE_IS_DEF
 #include <SDL.h>
-#include "error.h"
-#include "constants.h"
-#include "graphics.h"
+/* #include "error.h" */
+/* #include "constants.h" */
+/* #include "graphics.h" */
 
 	typedef struct {
 		SDL_Texture *texture;

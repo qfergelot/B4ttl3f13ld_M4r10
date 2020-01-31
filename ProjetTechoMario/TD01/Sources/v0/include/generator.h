@@ -2,7 +2,7 @@
 #define GENERATOR_IS_DEF
 
 #include "timer.h"
-#include "constants.h"
+//#include "constants.h"
 
 //void generate_badbird(void* a);
 timer_id_t generator_init();

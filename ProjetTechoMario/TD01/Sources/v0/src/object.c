@@ -1,7 +1,10 @@
 #include <SDL_image.h>
 
 #include "object.h"
-
+#include "missile.h"
+#include "explosion.h"
+#include "text.h"
+#include "mario.h"
 
 
 
@@ -11,7 +14,6 @@ object_type_t object_class [6];
 
 void object_init (void){
     //initialisation de object_class
-
     object_class[OBJECT_TYPE_MARIO].animate_func = animation_mario_onestep;
     object_class[OBJECT_TYPE_MISSILE].animate_func = animation_missile_onestep;
     object_class[OBJECT_TYPE_EXPLOSION].animate_func = animation_explosion_onestep;
@@ -65,6 +67,12 @@ void object_object_init (dynamic_object_t *obj, sprite_t *sp, int type, int stat
 
     obj->global_chain.next = &(obj->global_chain);
     obj->global_chain.prev = &(obj->global_chain);
+}
 
-
+int get_state_of_map_object(int map_object){
+    static_object_t* tmp = static_object[map_object];
+    if (tmp == NULL){
+        return MAP_OBJECT_AIR;
+    }
+    else return tmp->state;
 }

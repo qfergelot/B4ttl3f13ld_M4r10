@@ -3,13 +3,13 @@
 
 #include "object.h"
 
-#include "text.h"
-#include "constants.h"
-#include "missile.h"
-#include "sprite.h"
-#include "map.h"
-#include "missile.h"
-#include "timer.h"
+/* #include "text.h" */
+/* #include "constants.h" */
+/* #include "missile.h" */
+/* #include "sprite.h" */
+/* #include "map.h" */
+/* #include "missile.h" */
+/* #include "timer.h" */
 
 extern dynamic_object_t mario_obj;
 

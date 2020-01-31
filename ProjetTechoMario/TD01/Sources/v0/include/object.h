@@ -4,10 +4,11 @@
 #include <SDL.h>
 #include "sprite.h"
 #include "list.h"
-#include "missile.h"
-#include "explosion.h"
+/* #include "missile.h" */
+/* #include "explosion.h" */
 
-#include "text.h"
+/* #include "text.h" */
+#include "constants.h"
 
 
 
@@ -38,6 +39,13 @@ typedef SDL_TimerID timer_id_t;
         FLOWER,
         FLOWER2,
         HERB
+    };
+
+     enum {
+        MAP_OBJECT_SOLID,
+        MAP_OBJECT_SEMI_SOLID,
+        MAP_OBJECT_AIR,
+        MAP_OBJECT_NUM
     };
 
     typedef struct _stat_obj{
@@ -88,9 +96,9 @@ typedef SDL_TimerID timer_id_t;
     typedef void (* timer_func_t)(dynamic_object_t *obj);
     typedef void (* dead_func_t)(dynamic_object_t *obj);
 
-    int animation_badbird_onestep(dynamic_object_t* obj);
-    void animation_badbird_dead(dynamic_object_t* obj);
-    int animation_text_onestep(dynamic_object_t* obj);
+    /* int animation_badbird_onestep(dynamic_object_t* obj); */
+    /* void animation_badbird_dead(dynamic_object_t* obj); */
+    /* int animation_text_onestep(dynamic_object_t* obj); */
 
 
     typedef struct {
@@ -108,5 +116,7 @@ typedef SDL_TimerID timer_id_t;
     void static_object_init (static_object_t *obj, sprite_t *sp, int state);
     // Initialize fields of object obj
     void object_object_init (dynamic_object_t *obj, sprite_t *sp, int type, int state, int x, int y, int xs, int ys, int direction, int cooldown);
+
+    int get_state_of_map_object(int map_object);
 
 #endif

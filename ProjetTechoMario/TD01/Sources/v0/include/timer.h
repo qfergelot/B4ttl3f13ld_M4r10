@@ -3,7 +3,7 @@
 
 #include "SDL.h"
 #include <stdint.h>
-#include "object.h"
+/* #include "object.h" */
 
 typedef SDL_TimerID timer_id_t;
 

@@ -3,11 +3,11 @@
 
 #include "object.h"
 
-#include "debug.h"
-#include "animation.h"
-#include "graphics.h"
+/* #include "debug.h" */
+/* #include "animation.h" */
+/* #include "graphics.h" */
 
-#include "error.h"
+/* #include "error.h" */
 
 
 void animation_explosion_from_missile_add (dynamic_object_t *obj);

@@ -2,6 +2,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "constants.h"
+#include "sprite.h"
+#include "object.h"
+#include "graphics.h"
+#include "mario.h"
+
 
 int** map;
 
@@ -12,9 +18,9 @@ void map_new(unsigned width, unsigned height){
     map_object_add("../images/floor.png", 1, MAP_OBJECT_SEMI_SOLID, FLOOR);
 
     map_allocate(width, height);
-    for (int x = 0; x < width; x++){
-        for (int y = 0; y < height; y++){
-            if(y == WIN_HEIGHT/BLOCK_SIZE){//Le Sol
+    for (unsigned x = 0; x < width; x++){
+        for (unsigned y = 0; y < height; y++){
+            if(y == height - 1 || y == 0){//Le Sol
                 map_set(GROUND, x, y);
             }
             else{
@@ -28,23 +34,23 @@ void map_new(unsigned width, unsigned height){
         }
     }
 
-    map_set(FLOOR, 5, WIN_HEIGHT/BLOCK_SIZE - 3);
-    map_set(FLOOR, 6, WIN_HEIGHT/BLOCK_SIZE - 3);
-    map_set(FLOOR, 7, WIN_HEIGHT/BLOCK_SIZE - 3);
-    map_set(FLOOR, 8, WIN_HEIGHT/BLOCK_SIZE - 3);
-    map_set(FLOOR, 8, WIN_HEIGHT/BLOCK_SIZE - 6);
-    map_set(FLOOR, 10, WIN_HEIGHT/BLOCK_SIZE - 6);
-    map_set(FLOOR, 7, WIN_HEIGHT/BLOCK_SIZE - 9);
+    map_set(FLOOR, 5, MAP_HEIGHT - 3);
+    map_set(FLOOR, 6, MAP_HEIGHT - 3);
+    map_set(FLOOR, 7, MAP_HEIGHT - 3);
+    map_set(FLOOR, 8, MAP_HEIGHT - 3);
+    map_set(FLOOR, 8, MAP_HEIGHT - 6);
+    map_set(FLOOR, 10, MAP_HEIGHT - 6);
+    map_set(FLOOR, 7, MAP_HEIGHT- 9);
 }
 
 void map_allocate(unsigned width, unsigned height){
     map = (int **) malloc(width * sizeof(int*));
-    for (int x = 0; x < width; x++){
+    for (unsigned x = 0; x < width; x++){
         map[x] = (int *) malloc(height * sizeof(int));
     }
 }
 
-void map_set(int map_object, int x, int y){
+void map_set(int map_object, unsigned x, unsigned y){
     map[x][y] = map_object;
 }
 
@@ -57,21 +63,34 @@ void map_object_add(char* path, int nb_sprites, int type, int map_object){
         static_object[map_object] = NULL;
     }
     else{
-        sprite_t sp;
-        static_object_t obj;
-        sprite_create(&sp, path, BLOCK_SIZE, BLOCK_SIZE, nb_sprites, RIGHT);
-        static_object_init(&obj, &sp, type);
-        static_object[map_object] = &obj;
+        sprite_t* sp = (sprite_t*) malloc(sizeof(sprite_t));
+        static_object_t* obj = (static_object_t*) malloc(sizeof(static_object_t));
+        sprite_create(sp, path, BLOCK_SIZE, BLOCK_SIZE, nb_sprites, RIGHT);
+        static_object_init(obj, sp, type);
+        static_object[map_object] = obj;
     }
 }
 
 void map_render_objects(){
-    for(int x = 0; x < MAP_WIDTH; x++){
-        for(int y = 0; y < MAP_HEIGHT; y++){
-            int map_object = map_get(x, y);
+    int x_camera = (mario_obj.x_map - mario_obj.x_screen)/BLOCK_SIZE;
+    //int y_camera = (mario_obj.y_screen - mario_obj.y_map)/BLOCK_SIZE;
+    for(int x_count = 0; x_camera < MAP_WIDTH; x_count++){
+        for(int y_count = 0; y_count < MAP_HEIGHT; y_count++){
+            int map_object = map_get(x_camera, y_count);
             if (map_object != AIR){
-                graphics_render_static_object(static_object[map_object], x, y);
+                graphics_render_static_object(static_object[map_object], x_count, y_count);
             }
+            //y_camera++;
         }
+        x_camera++;
+    }
+}
+
+void map_display(){
+    for (unsigned y = 0; y < MAP_HEIGHT; y++){
+        for (unsigned x = 0; x < MAP_WIDTH; x++){
+            printf("%d", map_get(x, y));
+        }
+        printf("\n");
     }
 }

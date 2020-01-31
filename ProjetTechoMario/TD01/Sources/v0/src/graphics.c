@@ -2,13 +2,24 @@
 
 #include "graphics.h"
 
+#include "error.h"
+#include "debug.h"
+#include "constants.h"
+#include "animation.h"
+
+#include "sprite.h"
+#include "mario.h"
+#include "map.h"
 
 
 static SDL_Window *win = NULL;
-SDL_Renderer *ren = NULL;
+/*static int x_screen_map;
+static int y_screen_map;*/
 
 void graphics_init (Uint32 render_flags, char *background_skin)
 {
+  //x_screen_map = 0;
+  //y_screen_map = 0;
   // Initialisation de SDL
   if (SDL_Init (SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER ) != 0)
     exit_with_error ("SDL_Init");
@@ -22,11 +33,12 @@ void graphics_init (Uint32 render_flags, char *background_skin)
     exit_with_error ("SDL_CreateWindow");
 
   // Initialize graphical accelerated renderer
+  ren = NULL;
   ren = SDL_CreateRenderer (win, -1, render_flags);
   if (ren == NULL)
     exit_with_error ("SDL_CreateRenderer");
 
-  sprite_init(ren, background_skin);
+  sprite_init(background_skin);
 }
 
 static void graphics_render_background (sprite_t *sp)
@@ -70,35 +82,37 @@ void graphics_render_object (dynamic_object_t *obj)
 
 void graphics_render_static_object(static_object_t* obj, int x_map, int y_map){
 
-  int x_screen = x_map * BLOCK_SIZE;
+  //mario_obj.x_map;//en pixel
+
+  int x_screen = x_map * BLOCK_SIZE; //-> pixel
   int y_screen = y_map * BLOCK_SIZE;
 
-  SDL_Rect src, dst;
-  if (obj == NULL)
-    printf("nul\n");
+    SDL_Rect src, dst;
+    if (obj != NULL){
+      if(obj->sprite != NULL){
 
-  if(obj->sprite == NULL)
-    printf("NUL2\n");
-    
-  printf("%d, %d\n", obj->sprite->native_width, obj->sprite->native_height);
+        int nb_img_ligne = ((obj->sprite)->native_width/(obj->sprite)->display_width);
+        int nb_img_col = ((obj->sprite)->native_height/(obj->sprite)->display_height);
 
-  int nb_img_ligne = ((obj->sprite)->native_width/(obj->sprite)->display_width);
-  int nb_img_col = ((obj->sprite)->native_height/(obj->sprite)->display_height);
+        src.x = (obj->sprite)->display_width * (obj->anim_step % nb_img_ligne);
+        src.y = (obj->sprite)->display_height * (obj->anim_step / nb_img_col %nb_img_col );
+        src.w = (obj->sprite)->display_width;
+        src.h = (obj->sprite)->display_height;
 
-  src.x = (obj->sprite)->display_width * (obj->anim_step % nb_img_ligne);
-  src.y = (obj->sprite)->display_height * (obj->anim_step / nb_img_col %nb_img_col );
-  src.w = (obj->sprite)->display_width;
-  src.h = (obj->sprite)->display_height;
-
-  dst.x = x_screen;
-  dst.y = y_screen;
-  dst.w = (obj->sprite)->display_width;
-  dst.h = (obj->sprite)->display_height;
+        dst.x = x_screen;
+        dst.y = y_screen;
+        dst.w = (obj->sprite)->display_width;
+        dst.h = (obj->sprite)->display_height;
 
 
-  SDL_RenderCopyEx(ren, (obj->sprite)->texture, &src, &dst, 0, NULL, 0);
-
+        SDL_RenderCopy(ren, (obj->sprite)->texture, &src, &dst);
+      }
+    }
 }
+
+/*int is_in_screen(int x, int y){
+  return (x_screen_map <= x && x <= x_screen_map + WIN_WIDTH && y_screen_map <= y && y <= y_screen_map + WIN_HEIGHT);
+}*/
 
 
 void graphics_render_scrolling_object (dynamic_object_t *obj, int factor)
@@ -108,9 +122,16 @@ void graphics_render_scrolling_object (dynamic_object_t *obj, int factor)
 
   dst.x = obj->xs;
 
-  if ((mario_obj.x_screen == LEFT_LIMIT_SCROLLING) || (mario_obj.x_screen == RIGHT_LIMIT_SCROLLING)){
+  if (mario_obj.x_screen <= LEFT_LIMIT_SCROLLING){
     obj->xs -= mario_obj.xs/factor;
     obj->xs %= obj->sprite->native_width;
+    //x_screen_map -= MARIO_SPEED ;
+  }
+  else if(mario_obj.x_screen >= RIGHT_LIMIT_SCROLLING)
+  {
+    obj->xs -= mario_obj.xs/factor;
+    obj->xs %= obj->sprite->native_width;
+    //x_screen_map += MARIO_SPEED;
   }
 
   dst.y = 0;
@@ -140,10 +161,11 @@ void graphics_render (void)
   graphics_render_background (&cloud_background_sprite);
 
   //We display the static objects
-  map_render_objects();
 
   // We display the dynamics objects
   animation_render_objects();
+
+  map_render_objects();
 
   interm = SDL_GetTicks ();
 

@@ -1,4 +1,5 @@
 #include "timer.h"
+#include "object.h"
 
 int timer_init (void){
 

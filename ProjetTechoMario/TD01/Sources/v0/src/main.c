@@ -84,6 +84,7 @@ int main (int argc, char **argv)
   object_init();
   animation_init();
   map_new(MAP_WIDTH, MAP_HEIGHT);
+  map_display();
   //gen_tim = generator_init();
 
 

@@ -2,8 +2,8 @@
 #define TEXT_IS_DEF
 
 #include "object.h"
-#include "animation.h"
-#include "debug.h"
+/* #include "animation.h" */
+/* #include "debug.h" */
 
     void animation_text_add (dynamic_object_t *obj);
 

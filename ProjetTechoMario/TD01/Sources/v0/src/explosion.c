@@ -1,4 +1,8 @@
 #include "explosion.h"
+#include "debug.h"
+#include "animation.h"
+#include "graphics.h"
+#include "error.h"
 
 
 

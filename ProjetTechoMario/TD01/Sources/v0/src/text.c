@@ -1,4 +1,8 @@
 #include "text.h"
+#include "animation.h"
+#include "debug.h"
+#include "error.h"
+
 
     void animation_text_add (dynamic_object_t* obj){
         dynamic_object_t* text_obj = (dynamic_object_t*) malloc(sizeof(dynamic_object_t));

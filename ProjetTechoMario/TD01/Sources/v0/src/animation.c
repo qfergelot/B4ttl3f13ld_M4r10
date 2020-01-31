@@ -1,8 +1,22 @@
 #include "animation.h"
-
+#include "graphics.h" // A placer ici
+#include "list.h" // A placer ici
+#include "timer.h" // A placer ici
+#include "collision.h" // A placer ici
+#include "mario.h" // A placer ici
+#include "debug.h" // A placer ici
+#include "tree.h" // A placer ici
+#include "explosion.h" // A placer ici
 
 
 LIST_HEAD(all_objects); //struct list_head all_objects = { &(all_objects), &(all_objects) }
+
+#define for_all_objects(var) \
+    list_for_each_entry_safe(dynamic_object_t, var, &(all_objects), global_chain)
+
+#define for_all_other_objects(var) \
+    list_for_each_entry_safe(dynamic_object_t, var, obj->global_chain.next, global_chain)
+
 
 int graphics_render_scrolling_object();
 
@@ -32,9 +46,6 @@ void animation_one_step (int left, int right, int up, int down, int space){
         animate_func_t func = object_class[obj->type].animate_func;
         if (func != NULL){
             if(func(obj)){
-                if (obj->type == OBJECT_TYPE_MISSILE){
-                    animation_explosion_from_missile_add (obj);
-                }
                 animation_mobile_object_del(obj);
             }
         }

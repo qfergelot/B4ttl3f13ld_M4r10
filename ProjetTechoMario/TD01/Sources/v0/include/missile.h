@@ -2,10 +2,10 @@
 #define MISSILE_IS_DEF
 
 #include "object.h"
-#include "constants.h"
-#include "sprite.h"
-#include "animation.h"
-#include "debug.h"
+/* #include "constants.h" */
+/* #include "sprite.h" */
+/* #include "animation.h" */
+/* #include "debug.h" */
 
 
     //dynamic_object_t* create_missile(void);

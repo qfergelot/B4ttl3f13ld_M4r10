@@ -1,4 +1,10 @@
 #include "missile.h"
+#include "explosion.h"
+#include "constants.h"
+#include "animation.h"
+#include "debug.h"
+#include "error.h"
+#include "map.h"
 
 
 void animation_missile_add (dynamic_object_t *obj){
@@ -26,7 +32,8 @@ int animation_missile_onestep (dynamic_object_t *obj){
         obj->x_map -= obj->xs;
     }
 
-    if(map[(obj->x_map + obj->xs)/BLOCK_SIZE][obj->y_map/BLOCK_SIZE] == MAP_OBJECT_SOLID || map[(obj->x_map + obj->xs + obj->sprite->display_width)/BLOCK_SIZE][obj->y_map/BLOCK_SIZE] == MAP_OBJECT_SOLID){
+    if(get_state_of_map_object(map_get((obj->x_map + obj->xs)/BLOCK_SIZE, obj->y_map/BLOCK_SIZE)) == MAP_OBJECT_SOLID || get_state_of_map_object(map_get((obj->x_map + obj->xs + obj->sprite->display_width)/BLOCK_SIZE, obj->y_map/BLOCK_SIZE)) == MAP_OBJECT_SOLID){
+        animation_explosion_from_missile_add (obj);
         return 1;
     }
 
