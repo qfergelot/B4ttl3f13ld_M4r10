@@ -21,6 +21,7 @@ int animation_mario_onestep (dynamic_object_t *obj);
 void animation_mario_timer_expired (dynamic_object_t *obj);
 Uint32 mario_callback(Uint32 interval, void *param);
 void animation_dead_mario (dynamic_object_t* obj);
+int is_horizontal_move_possible(dynamic_object_t* obj, int direction, int orientation);
 
 
 #endif

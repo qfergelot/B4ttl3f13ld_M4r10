@@ -45,7 +45,11 @@ typedef SDL_TimerID timer_id_t;
         MAP_OBJECT_SOLID,
         MAP_OBJECT_SEMI_SOLID,
         MAP_OBJECT_AIR,
-        MAP_OBJECT_NUM
+        MAP_OBJECT_LIQUID,
+        MAP_OBJECT_COLLECTIBLE,
+        MAP_OBJECT_DESTRUCTIBLE,
+        MAP_OBJECT_EXPLOSIVE,
+        MAP_OBJECT_TRANSPARENT
     };
 
     typedef struct _stat_obj{

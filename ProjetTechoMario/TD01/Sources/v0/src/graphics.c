@@ -84,8 +84,8 @@ void graphics_render_static_object(static_object_t* obj, int x_map, int y_map){
 
   //mario_obj.x_map;//en pixel
 
-  int x_screen = x_map * BLOCK_SIZE; //-> pixel
-  int y_screen = y_map * BLOCK_SIZE;
+  int x_screen = x_map;// * BLOCK_SIZE; //-> pixel
+  int y_screen = y_map;// * BLOCK_SIZE;
 
     SDL_Rect src, dst;
     if (obj != NULL){
