@@ -34,12 +34,12 @@ void map_new(unsigned width, unsigned height){
         }
     }
 
-    map_set(FLOOR, 5, MAP_HEIGHT - 3);
-    map_set(FLOOR, 6, MAP_HEIGHT - 3);
-    map_set(FLOOR, 7, MAP_HEIGHT - 3);
-    map_set(FLOOR, 8, MAP_HEIGHT - 3);
+
+    map_set(FLOOR, 12, MAP_HEIGHT - 1);
+    map_set(FLOOR, 11, MAP_HEIGHT - 2);
+    map_set(FLOOR, 10, MAP_HEIGHT - 3);
+    map_set(FLOOR, 9, MAP_HEIGHT - 3);
     map_set(FLOOR, 8, MAP_HEIGHT - 6);
-    map_set(FLOOR, 10, MAP_HEIGHT - 6);
     map_set(FLOOR, 7, MAP_HEIGHT- 9);
     map_set(WALL, 13, MAP_HEIGHT - 5);
     map_set(WALL, 14, MAP_HEIGHT - 5);
@@ -78,48 +78,20 @@ void map_object_add(char* path, int nb_sprites, int type, int map_object){
     }
 }
 
-/*void map_render_objects(){
-    for (int x_camera = 0; x_camera < MAP_WIDTH * BLOCK_SIZE; x_camera+=BLOCK_SIZE){
-        for (int y = 0; y < MAP_HEIGHT * BLOCK_SIZE; y+=BLOCK_SIZE){
-            int map_object = map_get(x_camera, y);
-            if (map_object != AIR){
-                graphics_render_static_object(static_object[map_object], x_camera, y);
-            }
-        }
-    }
-}*/
-
 void map_render_objects(){
     int x_camera = (mario_obj.x_map - mario_obj.x_screen);
-    //x_camera = x_camera - x_camera%BLOCK_SIZE;
+    int y_camera = (mario_obj.y_map - mario_obj.y_screen);
 
-    for (int i = x_camera /BLOCK_SIZE; i <= (WIN_WIDTH + x_camera) / BLOCK_SIZE; i++){
-        for (int j = 0 ; j < MAP_HEIGHT; j++){
-            if (i < MAP_WIDTH){
+    for (int i = x_camera/BLOCK_SIZE; i <= (WIN_WIDTH + x_camera)/BLOCK_SIZE ; i++){
+        for (int j = y_camera/BLOCK_SIZE; j <= (WIN_HEIGHT+ y_camera)/BLOCK_SIZE; j++){
+            if (i < MAP_WIDTH && j < MAP_HEIGHT) {
                 int map_object = map_get(i, j);
                 if (map_object != AIR){
-                    graphics_render_static_object(static_object[map_object], i * BLOCK_SIZE - x_camera, j * BLOCK_SIZE);
+                    graphics_render_static_object(static_object[map_object], i * BLOCK_SIZE  - x_camera, j * BLOCK_SIZE - y_camera);
                 }
             }
         }
     }
-
-
-
-
-
-
-
-    //int y_camera = (mario_obj.y_screen - mario_obj.y_map)/BLOCK_SIZE;
-    /*for(int x_count = 0; x_camera < MAP_WIDTH; x_count++, x_camera++){
-        for(int y_count = 0; y_count < MAP_HEIGHT; y_count++){
-            int map_object = map_get(x_camera, y_count);
-            if (map_object != AIR){
-                graphics_render_static_object(static_object[map_object], x_count, y_count);
-            }
-            //y_camera++;
-        }
-    }*/
 }
 
 void map_display(){

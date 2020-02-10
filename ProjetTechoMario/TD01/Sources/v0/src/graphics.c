@@ -138,13 +138,13 @@ void graphics_render_scrolling_object (dynamic_object_t *obj, int factor)
   dst.w = (obj->sprite)->display_width;
   dst.h = (obj->sprite)->display_height;
 
-  while(dst.x <= WIN_WIDTH){
-    SDL_RenderCopy (ren, obj->sprite->texture, NULL, &dst);
-    dst.x += (obj->sprite)->native_width;
-  }
-  while(dst.x > 0){
-    dst.x -= (obj->sprite)->native_width;
-    SDL_RenderCopy (ren, obj->sprite->texture, NULL, &dst);
+    while(dst.x <= WIN_WIDTH){
+      SDL_RenderCopy (ren, obj->sprite->texture, NULL, &dst);
+      dst.x += (obj->sprite)->native_width;
+    }
+    while(dst.x > 0){
+      dst.x -= (obj->sprite)->native_width;
+      SDL_RenderCopy (ren, obj->sprite->texture, NULL, &dst);
   }
 }
 

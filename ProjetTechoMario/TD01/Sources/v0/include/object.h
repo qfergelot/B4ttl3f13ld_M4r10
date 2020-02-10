@@ -88,6 +88,7 @@ typedef SDL_TimerID timer_id_t;
         int zoom;
 
         int in_movement;
+        int you_shall_not_pass;
 
         timer_id_t timer_id;
 

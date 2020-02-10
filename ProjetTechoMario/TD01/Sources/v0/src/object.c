@@ -62,6 +62,7 @@ void object_object_init (dynamic_object_t *obj, sprite_t *sp, int type, int stat
     obj->val_sin = 0;
     obj->opacity = 255;
     obj->zoom = 1;
+    obj->you_shall_not_pass = 1;
 
     obj->in_movement = 0;
 
