@@ -63,17 +63,10 @@ void object_object_init (dynamic_object_t *obj, sprite_t *sp, int type, int stat
     obj->opacity = 255;
     obj->zoom = 1;
     obj->you_shall_not_pass = 1;
+    obj->you_shall_fall = 1;
 
     obj->in_movement = 0;
 
     obj->global_chain.next = &(obj->global_chain);
     obj->global_chain.prev = &(obj->global_chain);
-}
-
-int get_state_of_map_object(int map_object){
-    static_object_t* tmp = static_object[map_object];
-    if (tmp == NULL){
-        return MAP_OBJECT_AIR;
-    }
-    else return tmp->state;
 }

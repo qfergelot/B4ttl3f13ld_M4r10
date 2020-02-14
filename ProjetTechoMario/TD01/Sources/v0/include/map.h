@@ -18,4 +18,10 @@
     void map_render_objects(void);
     void map_display();
 
+    void map_set_at(int map_object, unsigned x_pixel, unsigned y_pixel);
+
+    int get_state_of_map_object(int map_object);
+    int get_state_of_object_at(int x_block, int y_block);
+    int get_state(int x_pixel, int y_pixel);
+
 #endif

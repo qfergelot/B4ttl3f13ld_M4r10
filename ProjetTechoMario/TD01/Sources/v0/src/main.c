@@ -83,6 +83,7 @@ int main (int argc, char **argv)
   graphics_init (render_flags, (skin ? skin : DEFAULT_BACKGROUND_SKIN));
   object_init();
   animation_init();
+
   map_new(MAP_WIDTH, MAP_HEIGHT);
   map_display();
   //gen_tim = generator_init();

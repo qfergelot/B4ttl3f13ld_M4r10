@@ -21,10 +21,13 @@ void graphics_init (Uint32 render_flags, char *background_skin)
   //x_screen_map = 0;
   //y_screen_map = 0;
   // Initialisation de SDL
-  if (SDL_Init (SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER ) != 0)
+  if (SDL_Init (SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER ) != 0){
     exit_with_error ("SDL_Init");
+  }
 
   atexit (graphics_clean);
+
+
 
   // Create main window
   win = SDL_CreateWindow ("847723$1329 #4610", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
@@ -122,12 +125,12 @@ void graphics_render_scrolling_object (dynamic_object_t *obj, int factor)
 
   dst.x = obj->xs;
 
-  if (mario_obj.x_screen <= LEFT_LIMIT_SCROLLING){
+  if (mario_obj.x_screen <= LEFT_LIMIT_SCROLLING && mario_obj.you_shall_not_pass){
     obj->xs -= mario_obj.xs/factor;
     obj->xs %= obj->sprite->native_width;
     //x_screen_map -= MARIO_SPEED ;
   }
-  else if(mario_obj.x_screen >= RIGHT_LIMIT_SCROLLING)
+  else if(mario_obj.x_screen >= RIGHT_LIMIT_SCROLLING && mario_obj.you_shall_not_pass)
   {
     obj->xs -= mario_obj.xs/factor;
     obj->xs %= obj->sprite->native_width;

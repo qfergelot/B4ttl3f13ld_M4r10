@@ -38,7 +38,8 @@ typedef SDL_TimerID timer_id_t;
         GRASS,
         FLOWER,
         FLOWER2,
-        HERB
+        HERB,
+        COIN
     };
 
      enum {
@@ -89,6 +90,9 @@ typedef SDL_TimerID timer_id_t;
 
         int in_movement;
         int you_shall_not_pass;
+        int you_shall_fall;
+
+        int number_piece;
 
         timer_id_t timer_id;
 
@@ -121,7 +125,5 @@ typedef SDL_TimerID timer_id_t;
     void static_object_init (static_object_t *obj, sprite_t *sp, int state);
     // Initialize fields of object obj
     void object_object_init (dynamic_object_t *obj, sprite_t *sp, int type, int state, int x, int y, int xs, int ys, int direction, int cooldown);
-
-    int get_state_of_map_object(int map_object);
 
 #endif

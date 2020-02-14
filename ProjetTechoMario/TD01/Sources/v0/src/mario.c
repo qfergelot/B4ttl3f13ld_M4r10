@@ -101,29 +101,49 @@ int animation_mario_onestep (dynamic_object_t *obj ){
 
     //Limites Artificielles(BLOCKS)
 
-    if (get_state_of_map_object(map_get((obj->x_map + 5)/BLOCK_SIZE, (obj->y_map + obj->ys + obj->sprite->display_height)/BLOCK_SIZE)) == MAP_OBJECT_SOLID ||
-        get_state_of_map_object(map_get((obj->x_map + obj->sprite->display_width - 5)/BLOCK_SIZE, (obj->y_map + obj->ys + obj->sprite->display_height)/BLOCK_SIZE)) == MAP_OBJECT_SOLID){
-
+    if (get_state(obj->x_map + 5, obj->y_map + obj->ys + obj->sprite->display_height) == MAP_OBJECT_SOLID ||
+        get_state(obj->x_map + obj->sprite->display_width - 5, obj->y_map + obj->ys + obj->sprite->display_height) == MAP_OBJECT_SOLID)
+    {
         obj->ys = 0;
-
         obj->state = OBJECT_STATE_NORMAL;
     }
-    else if ((get_state_of_map_object(map_get((obj->x_map + 1)/BLOCK_SIZE, (obj->y_map + obj->ys + obj->sprite->display_height)/BLOCK_SIZE)) == MAP_OBJECT_SEMI_SOLID ||
-            get_state_of_map_object(map_get((obj->x_map + obj->sprite->display_width - 1)/BLOCK_SIZE, (obj->y_map + obj->ys + obj->sprite->display_height)/BLOCK_SIZE)) == MAP_OBJECT_SEMI_SOLID) && obj->ys > 0) {
+    else if ((get_state(obj->x_map + 1, obj->y_map + obj->ys + obj->sprite->display_height) == MAP_OBJECT_SEMI_SOLID ||
+        get_state(obj->x_map + obj->sprite->display_width - 1, obj->y_map + obj->ys + obj->sprite->display_height) == MAP_OBJECT_SEMI_SOLID) && obj->ys > 0)
+    {
         obj->ys = 0;
         obj->state = OBJECT_STATE_NORMAL;
     }
     else obj->state = OBJECT_STATE_IN_AIR;
 
-    if(get_state_of_map_object(map_get((obj->x_map + obj->xs + 5)/BLOCK_SIZE, (obj->y_map)/BLOCK_SIZE + 1)) == MAP_OBJECT_SOLID ||
-        get_state_of_map_object(map_get((obj->x_map + obj->xs + obj->sprite->display_width - 5)/BLOCK_SIZE, (obj->y_map) /BLOCK_SIZE + 1)) == MAP_OBJECT_SOLID ||
-        get_state_of_map_object(map_get((obj->x_map + obj->xs + 5)/BLOCK_SIZE, (obj->y_map + obj->sprite->display_height)/BLOCK_SIZE)) == MAP_OBJECT_SOLID ||
-        get_state_of_map_object(map_get((obj->x_map + obj->xs + obj->sprite->display_width - 5)/BLOCK_SIZE, (obj->y_map + obj->sprite->display_height)/BLOCK_SIZE)) == MAP_OBJECT_SOLID){
+    if(get_state(obj->x_map + obj->xs + 5, obj->y_map + BLOCK_SIZE) == MAP_OBJECT_SOLID ||
+        get_state(obj->x_map + obj->xs + obj->sprite->display_width - 5, obj->y_map + BLOCK_SIZE) == MAP_OBJECT_SOLID ||
+        get_state(obj->x_map + obj->xs + 5, obj->y_map + obj->sprite->display_height) == MAP_OBJECT_SOLID ||
+        get_state(obj->x_map + obj->xs + obj->sprite->display_width - 5, obj->y_map + obj->sprite->display_height) == MAP_OBJECT_SOLID){
         obj->xs = 0;
     }
 
-    if ((get_state_of_map_object(map_get((obj->x_map + 5)/BLOCK_SIZE, (obj->y_map)/BLOCK_SIZE)) == MAP_OBJECT_SOLID ||
-        get_state_of_map_object(map_get((obj->x_map + obj->sprite->display_width - 5)/BLOCK_SIZE, (obj->y_map)/BLOCK_SIZE)) == MAP_OBJECT_SOLID) && obj->ys < 0){
+    if(get_state(obj->x_map, obj->y_map + BLOCK_SIZE) == MAP_OBJECT_COLLECTIBLE){
+        map_set_at(AIR, obj->x_map, obj->y_map + BLOCK_SIZE);
+        mario_obj.number_piece ++;
+    }
+
+    if (get_state(obj->x_map + obj->sprite->display_width, obj->y_map + BLOCK_SIZE) == MAP_OBJECT_COLLECTIBLE){
+        map_set_at(AIR, obj->x_map + obj->sprite->display_width, obj->y_map + BLOCK_SIZE);
+        mario_obj.number_piece ++;
+    }
+
+    if(get_state(obj->x_map, obj->y_map + 2*BLOCK_SIZE) == MAP_OBJECT_COLLECTIBLE ){
+        map_set_at(AIR, obj->x_map, obj->y_map + 2*BLOCK_SIZE);
+        mario_obj.number_piece ++;
+    }
+
+    if (get_state(obj->x_map + obj->sprite->display_width, obj->y_map + 2*BLOCK_SIZE) == MAP_OBJECT_COLLECTIBLE){
+        map_set_at(AIR, obj->x_map + obj->sprite->display_width, obj->y_map + 2*BLOCK_SIZE);
+        mario_obj.number_piece ++;
+    }
+
+    if ((get_state(obj->x_map + 5, obj->y_map) == MAP_OBJECT_SOLID ||
+        get_state(obj->x_map + obj->sprite->display_width - 5, obj->y_map) == MAP_OBJECT_SOLID) && obj->ys < 0){
         obj->ys = 0;
     }
 
@@ -132,13 +152,20 @@ int animation_mario_onestep (dynamic_object_t *obj ){
     obj->x_map += obj->xs;
     obj->y_map += obj->ys;
 
+    //print position
+    //printf("%d, %d\n", obj->x_screen, obj->y_screen);
+    //printf("%d, %d\n", obj->x_map, obj->y_map);
+    //printf("%d, %d\n", obj->x_map/BLOCK_SIZE, obj->y_map/BLOCK_SIZE);
+    
+
     if (obj->x_map >= MAP_WIDTH * BLOCK_SIZE - DECAL || obj->x_map <= DECAL ) obj->you_shall_not_pass = 0;
+    if (obj->y_map + obj->sprite->display_height >=  MAP_HEIGHT * BLOCK_SIZE - 3*BLOCK_SIZE/ 2 ) obj->you_shall_fall = 0;
 
     if (obj->you_shall_not_pass && obj->x_screen < LEFT_LIMIT_SCROLLING) obj->x_screen = LEFT_LIMIT_SCROLLING;
 
     if (obj->you_shall_not_pass && obj->x_screen > RIGHT_LIMIT_SCROLLING) obj->x_screen = RIGHT_LIMIT_SCROLLING;
 
-    if (obj->y_screen > 4*WIN_HEIGHT/5) obj->y_screen = 4*WIN_HEIGHT/5;
+    if (obj->you_shall_fall && obj->y_screen > 4*WIN_HEIGHT/5) obj->y_screen = 4*WIN_HEIGHT/5;
 
     if (obj->x_map < LEFT_MAP_LIMIT) obj->x_map = LEFT_MAP_LIMIT;
 
@@ -158,6 +185,7 @@ int animation_mario_onestep (dynamic_object_t *obj ){
     }
 
     if (obj->x_screen <= RIGHT_LIMIT_SCROLLING && obj->x_screen >= RIGHT_LIMIT_SCROLLING) obj->you_shall_not_pass = 1;
+    if (obj->y_screen <= MAP_HEIGHT * BLOCK_SIZE - 3*BLOCK_SIZE/ 2) obj->you_shall_fall = 1;
 
     return 0;
 }
