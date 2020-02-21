@@ -10,6 +10,7 @@
 
 
 int** map;
+static int tmp = 0;
 
 void map_new(unsigned width, unsigned height){
     map_object_add(NULL, 0, MAP_OBJECT_AIR, AIR);
@@ -20,7 +21,7 @@ void map_new(unsigned width, unsigned height){
     map_object_add("../images/flower2.png", 1, MAP_OBJECT_TRANSPARENT, FLOWER2);
     map_object_add("../images/grass.png", 1, MAP_OBJECT_SEMI_SOLID, GRASS);
     map_object_add("../images/herb.png", 1, MAP_OBJECT_TRANSPARENT, HERB);
-    map_object_add("../images/coin.png", 16, MAP_OBJECT_COLLECTIBLE, COIN);
+    map_object_add("../images/coin.png", 10, MAP_OBJECT_COLLECTIBLE, COIN);
 
     map_allocate(width, height);
     for (unsigned x = 0; x < width; x++){
@@ -42,7 +43,8 @@ void map_new(unsigned width, unsigned height){
 
     map_set(FLOOR, 12, MAP_HEIGHT - 1);
     map_set(WALL, 19, MAP_HEIGHT - 2);
-    
+    map_set(WALL, 20, MAP_HEIGHT - 2);
+    map_set(WALL, 22, MAP_HEIGHT - 3);
     map_set(FLOWER, 11, MAP_HEIGHT - 2);
     map_set(FLOWER2, 10, MAP_HEIGHT - 2);
     map_set(HERB, 13, MAP_HEIGHT - 2);
@@ -101,8 +103,13 @@ void map_object_add(char* path, int nb_sprites, int type, int map_object){
 void map_render_objects(){
     int x_camera = (mario_obj.x_map - mario_obj.x_screen);
     int y_camera = (mario_obj.y_map - mario_obj.y_screen);
-    static_object[COIN]->anim_step ++;
-    static_object[COIN]->anim_step %= static_object[COIN]->sprite->nb_images;
+    tmp++;
+    if(tmp == 4){
+        static_object[COIN]->anim_step ++;
+        static_object[COIN]->anim_step %= static_object[COIN]->sprite->nb_images;
+        tmp = 0;
+    }
+   
 
 
     for (int i = x_camera/BLOCK_SIZE; i <= (WIN_WIDTH + x_camera)/BLOCK_SIZE ; i++){

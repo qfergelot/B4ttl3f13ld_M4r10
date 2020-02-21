@@ -14,13 +14,11 @@ void animation_explosion_from_missile_add (dynamic_object_t *missile){
 
 
     PRINT_DEBUG('m', "Malloc done on object %p\n", exp_obj);
-    object_object_init (exp_obj, &explosion_sprite, OBJECT_TYPE_EXPLOSION, OBJECT_STATE_IN_AIR, missile->x_screen, missile->y_screen, 0, -5, RIGHT, 0);
+    object_object_init (exp_obj, &explosion_sprite, OBJECT_TYPE_EXPLOSION, OBJECT_STATE_IN_AIR, missile->x_map, missile->y_map, 0, 0, RIGHT, 0);
     animation_mobile_object_add (exp_obj);
 }
 
 int animation_explosion_onestep (dynamic_object_t *obj){
-    obj->y_screen += obj->ys;
-
     obj->anim_step++;
     if(obj->anim_step == obj->sprite->nb_images)
         return 1;

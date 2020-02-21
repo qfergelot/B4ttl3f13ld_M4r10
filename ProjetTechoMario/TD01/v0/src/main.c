@@ -9,7 +9,6 @@
 #include "error.h"
 #include "debug.h"
 #include "mario.h"
-#include "tree.h"
 #include "animation.h"
 #include "missile.h"
 #include "object.h"
@@ -85,7 +84,7 @@ int main (int argc, char **argv)
   animation_init();
 
   map_new(MAP_WIDTH, MAP_HEIGHT);
-  map_display();
+  //map_display();
   //gen_tim = generator_init();
 
 

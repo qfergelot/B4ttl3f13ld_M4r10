@@ -11,6 +11,7 @@
 #include "mario.h"
 #include "map.h"
 
+int tree_offset[3] = {0};
 
 static SDL_Window *win = NULL;
 /*static int x_screen_map;
@@ -72,8 +73,8 @@ void graphics_render_object (dynamic_object_t *obj)
   src.w = (obj->sprite)->display_width;
   src.h = (obj->sprite)->display_height;
 
-  dst.x = obj->x_screen;
-  dst.y = obj->y_screen;
+  dst.x = obj->x_map - mario_obj.x_map + mario_obj.x_screen;
+  dst.y = obj->y_map - mario_obj.y_map + mario_obj.y_screen;
   dst.w = (obj->sprite)->display_width / obj->zoom;
   dst.h = (obj->sprite)->display_height / obj->zoom;
 
@@ -87,9 +88,6 @@ void graphics_render_static_object(static_object_t* obj, int x_map, int y_map){
 
   //mario_obj.x_map;//en pixel
 
-  int x_screen = x_map;// * BLOCK_SIZE; //-> pixel
-  int y_screen = y_map;// * BLOCK_SIZE;
-
     SDL_Rect src, dst;
     if (obj != NULL){
       if(obj->sprite != NULL){
@@ -102,8 +100,8 @@ void graphics_render_static_object(static_object_t* obj, int x_map, int y_map){
         src.w = (obj->sprite)->display_width;
         src.h = (obj->sprite)->display_height;
 
-        dst.x = x_screen;
-        dst.y = y_screen;
+        dst.x = x_map;
+        dst.y = y_map;
         dst.w = (obj->sprite)->display_width;
         dst.h = (obj->sprite)->display_height;
 
@@ -118,36 +116,32 @@ void graphics_render_static_object(static_object_t* obj, int x_map, int y_map){
 }*/
 
 
-void graphics_render_scrolling_object (dynamic_object_t *obj, int factor)
+void graphics_render_scrolling_object (sprite_t* obj, int index, int factor) //Le 3 image de arbre du fond
 {
-
   SDL_Rect dst;
-
-  dst.x = obj->xs;
+  dst.x = tree_offset[index];
 
   if (mario_obj.x_screen <= LEFT_LIMIT_SCROLLING && mario_obj.you_shall_not_pass){
-    obj->xs -= mario_obj.xs/factor;
-    obj->xs %= obj->sprite->native_width;
-    //x_screen_map -= MARIO_SPEED ;
+    tree_offset[index] -= (( mario_obj.xs)/factor);
+    tree_offset[index] %= obj->native_width;
   }
   else if(mario_obj.x_screen >= RIGHT_LIMIT_SCROLLING && mario_obj.you_shall_not_pass)
   {
-    obj->xs -= mario_obj.xs/factor;
-    obj->xs %= obj->sprite->native_width;
-    //x_screen_map += MARIO_SPEED;
+    tree_offset[index] -= (( mario_obj.xs)/factor);
+    tree_offset[index] %= obj->native_width;
   }
 
   dst.y = 0;
-  dst.w = (obj->sprite)->display_width;
-  dst.h = (obj->sprite)->display_height;
+  dst.w = obj->display_width;
+  dst.h = obj->display_height;
 
-    while(dst.x <= WIN_WIDTH){
-      SDL_RenderCopy (ren, obj->sprite->texture, NULL, &dst);
-      dst.x += (obj->sprite)->native_width;
-    }
-    while(dst.x > 0){
-      dst.x -= (obj->sprite)->native_width;
-      SDL_RenderCopy (ren, obj->sprite->texture, NULL, &dst);
+  while(dst.x <= WIN_WIDTH){
+    SDL_RenderCopy (ren, obj->texture, NULL, &dst);
+    dst.x += obj->native_width;
+  }
+  while(dst.x > 0){
+    dst.x -= obj->native_width;
+    SDL_RenderCopy (ren, obj->texture, NULL, &dst);
   }
 }
 
@@ -164,11 +158,16 @@ void graphics_render (void)
   graphics_render_background (&cloud_background_sprite);
 
   //We display the static objects
+  graphics_render_scrolling_object(&tree_background_sprite[2], 2, 4);
+  graphics_render_scrolling_object(&tree_background_sprite[1], 1, 2);
+  graphics_render_scrolling_object(&tree_background_sprite[0], 0, 1);
 
-  // We display the dynamics objects
-  animation_render_objects();
 
   map_render_objects();
+
+  animation_render_objects();
+
+
 
   interm = SDL_GetTicks ();
 

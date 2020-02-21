@@ -5,7 +5,6 @@
 #include "collision.h" // A placer ici
 #include "mario.h" // A placer ici
 #include "debug.h" // A placer ici
-#include "tree.h" // A placer ici
 #include "explosion.h" // A placer ici
 
 
@@ -23,7 +22,6 @@ int graphics_render_scrolling_object();
 
 void animation_init (void){
     create_mario();
-    create_trees();
 
     animation_mobile_object_add (&mario_obj);
 }
@@ -55,10 +53,6 @@ void animation_one_step (int left, int right, int up, int down, int space){
 
 void animation_render_objects (void){
     //ici on render tous les obj dynamic
-    graphics_render_scrolling_object(&tree_obj[2], 4);
-    graphics_render_scrolling_object(&tree_obj[1], 2);
-    graphics_render_scrolling_object(&tree_obj[0], 1);
-
     for_all_objects (obj) {
         graphics_render_object (obj);
     }
