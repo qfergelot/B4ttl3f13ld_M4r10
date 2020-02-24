@@ -10,7 +10,7 @@
 
 
 int** map;
-static int tmp = 0;
+//static int tmp = 0;
 
 void map_new(unsigned width, unsigned height){
     map_object_add(NULL, 0, MAP_OBJECT_AIR, AIR);
@@ -103,12 +103,12 @@ void map_object_add(char* path, int nb_sprites, int type, int map_object){
 void map_render_objects(){
     int x_camera = (mario_obj.x_map - mario_obj.x_screen);
     int y_camera = (mario_obj.y_map - mario_obj.y_screen);
-    tmp++;
-    if(tmp == 4){
+    //tmp++;
+    //if(tmp == 4){
         static_object[COIN]->anim_step ++;
         static_object[COIN]->anim_step %= static_object[COIN]->sprite->nb_images;
-        tmp = 0;
-    }
+        //tmp = 0;
+    //}
    
 
 

@@ -66,10 +66,10 @@ void graphics_render_object (dynamic_object_t *obj)
   int flip = SDL_FLIP_NONE;
 
   int nb_img_ligne = ((obj->sprite)->native_width/(obj->sprite)->display_width);
-  int nb_img_col = ((obj->sprite)->native_height/(obj->sprite)->display_height);
+  //int nb_img_col = ((obj->sprite)->native_height/(obj->sprite)->display_height);
 
   src.x = (obj->sprite)->display_width * (obj->anim_step % nb_img_ligne);
-  src.y = (obj->sprite)->display_height * (obj->anim_step / nb_img_col %nb_img_col );
+  src.y = (obj->sprite)->display_height * (obj->anim_step / nb_img_ligne);
   src.w = (obj->sprite)->display_width;
   src.h = (obj->sprite)->display_height;
 
@@ -92,11 +92,11 @@ void graphics_render_static_object(static_object_t* obj, int x_map, int y_map){
     if (obj != NULL){
       if(obj->sprite != NULL){
 
-        int nb_img_ligne = ((obj->sprite)->native_width/(obj->sprite)->display_width);
-        int nb_img_col = ((obj->sprite)->native_height/(obj->sprite)->display_height);
+        int nb_img_ligne = ((obj->sprite)->native_width/(obj->sprite)->display_width); // 1024/64 = 16 ok
+        //int nb_img_col = ((obj->sprite)->native_height/(obj->sprite)->display_height); // 128/64 = 2 ok
 
-        src.x = (obj->sprite)->display_width * (obj->anim_step % nb_img_ligne);
-        src.y = (obj->sprite)->display_height * (obj->anim_step / nb_img_col %nb_img_col );
+        src.x = (obj->sprite)->display_width * (obj->anim_step % nb_img_ligne); // 64 * (n % 16) 
+        src.y = (obj->sprite)->display_height * (obj->anim_step / nb_img_ligne ); // 64 * n/16
         src.w = (obj->sprite)->display_width;
         src.h = (obj->sprite)->display_height;
 
