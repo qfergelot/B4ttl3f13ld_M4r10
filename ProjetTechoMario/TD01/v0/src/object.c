@@ -50,10 +50,9 @@ void object_object_init (dynamic_object_t *obj, sprite_t *sp, int type, int stat
     obj->direction = direction;
     obj->anim_step = 0;
     obj->reverse = 0;
-        obj->direction_factor = 1;
+    obj->direction_factor = 1;
     if (obj->direction == LEFT)
         obj->direction_factor = -1;
-
 
     obj->cooldown = cooldown;
     obj->cd_count = 0;

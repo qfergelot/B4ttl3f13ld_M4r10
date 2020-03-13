@@ -14,23 +14,24 @@
 
 typedef SDL_TimerID timer_id_t;
 
-    enum {
+    enum { // TYPE D'OBJETS
         OBJECT_TYPE_MARIO,
         OBJECT_TYPE_MISSILE,
         OBJECT_TYPE_EXPLOSION,
         OBJECT_TYPE_TEXT,
         OBJECT_TYPE_TREE,
+        OBJECT_TYPE_CURSOR,
         __OBJECT_TYPE_NUM
     };
 
-    enum {
+    enum { // ÉTATS DES OBJETS
         OBJECT_STATE_NORMAL,
         OBJECT_STATE_IN_AIR,
         OBJECT_STATE_DESTROYED,
         OBJECT_STATE_DEAD
     };
 
-    enum {
+    enum { // TYPE DE BLOCS
         AIR,
         WALL,
         GROUND,
@@ -42,7 +43,7 @@ typedef SDL_TimerID timer_id_t;
         COIN
     };
 
-     enum {
+    enum { // PROPRIÉTÉS DES BLOCS
         MAP_OBJECT_SOLID,
         MAP_OBJECT_SEMI_SOLID,
         MAP_OBJECT_AIR,

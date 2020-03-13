@@ -14,12 +14,16 @@
 #include "object.h"
 #include "generator.h"
 #include "map.h"
+#include "list.h"
 
 
 #define DEFAULT_BACKGROUND_SKIN  "trees"
 
+
 static char *progname;
 static char *skin = NULL;
+
+int game_mode;
 
 typedef void (*func_t) (void*);
 func_t f;
@@ -82,6 +86,7 @@ int main (int argc, char **argv)
   graphics_init (render_flags, (skin ? skin : DEFAULT_BACKGROUND_SKIN));
   object_init();
   animation_init();
+  game_mode = GAME_MODE_PLAY;
 
   map_new(MAP_WIDTH, MAP_HEIGHT);
   //map_display();
@@ -116,6 +121,16 @@ int main (int argc, char **argv)
               quit = 1;
               break;
 
+            case SDLK_e:
+              // E : passage en mode Editor
+              game_mode = GAME_MODE_EDITOR;
+              break;
+
+            case SDLK_p:
+              // P : passage en mode Play
+              game_mode = GAME_MODE_PLAY;
+              break;
+
             default:
               ;
           }
@@ -130,8 +145,9 @@ int main (int argc, char **argv)
     int left = keystates[SDL_SCANCODE_LEFT];
     int right = keystates[SDL_SCANCODE_RIGHT];
     int space = keystates[SDL_SCANCODE_SPACE];
+    int tab = keystates[SDL_SCANCODE_TAB];
 
-    animation_one_step(left, right, up, down, space);
+    animation_one_step(left, right, up, down, space, tab);
 
     // Refresh screen
     graphics_render ();

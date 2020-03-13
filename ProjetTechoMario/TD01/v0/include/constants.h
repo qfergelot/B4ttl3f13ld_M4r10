@@ -2,6 +2,12 @@
 #ifndef CONSTANTS_IS_DEF
 #define CONSTANTS_IS_DEF
 
+enum {  // Modes de jeu
+  GAME_MODE_PLAY,
+  GAME_MODE_EDITOR
+};
+
+extern int game_mode;
 
 #define WIN_WIDTH   1920 // Width of window
 #define WIN_HEIGHT  1080 //Height of window
