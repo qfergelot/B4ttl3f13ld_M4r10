@@ -56,16 +56,17 @@ void animation_cursor_onestep (dynamic_object_t *obj){
     if (obj->you_shall_fall && obj->y_screen > 4*WIN_HEIGHT/5) obj->y_screen = 4*WIN_HEIGHT/5;
     if (obj->you_shall_fall && obj->y_screen < WIN_HEIGHT/5) obj->y_screen = WIN_HEIGHT/5;
 
-    if (obj->x_map <= LEFT_MAP_LIMIT) obj->x_map = LEFT_MAP_LIMIT;
-    if (obj->x_map >= RIGHT_MAP_LIMIT) obj->x_map = RIGHT_MAP_LIMIT;
+    if (obj->x_map <= LEFT_MAP_LIMIT) {obj->x_map = LEFT_MAP_LIMIT; obj->x_screen = LEFT_MAP_LIMIT;}
+    if (obj->x_map >= RIGHT_MAP_LIMIT) {obj->x_map = RIGHT_MAP_LIMIT; obj->x_screen = WIN_WIDTH - BLOCK_SIZE;}
 
-    if (obj->y_map < 0) obj->y_map = 0;
+    if (obj->y_map > BLOCK_SIZE * (MAP_HEIGHT -1)) {obj->y_map = BLOCK_SIZE * (MAP_HEIGHT -1); obj->y_screen = WIN_HEIGHT - BLOCK_SIZE;}
+    if (obj->y_map < 0) {obj->y_map = 0; obj->y_screen = 0;}
 
-    if (obj->x_screen <= RIGHT_LIMIT_SCROLLING && obj->x_screen >= RIGHT_LIMIT_SCROLLING) obj->you_shall_not_pass = 1;
+    if (obj->x_screen >= LEFT_LIMIT_SCROLLING && obj->x_screen <= RIGHT_LIMIT_SCROLLING) obj->you_shall_not_pass = 1;
     if (obj->y_screen <= MAP_HEIGHT * BLOCK_SIZE - 3*BLOCK_SIZE/ 2) obj->you_shall_fall = 1;
 
     //print position
     //printf("%d, %d\n", obj->x_screen, obj->y_screen);
     //printf("%d, %d\n", obj->x_map, obj->y_map);
-    //printf("%d, %d\n", obj->x_map/BLOCK_SIZE, obj->y_map/BLOCK_SIZE);
+    //printf("%d, %d\n\n", obj->x_map/BLOCK_SIZE, obj->y_map/BLOCK_SIZE);
 }
