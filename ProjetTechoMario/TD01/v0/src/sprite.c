@@ -8,6 +8,7 @@
 SDL_Renderer *ren;
 
 sprite_t mario_sprite;
+sprite_t cursor_sprite;
 sprite_t tree_background_sprite[3];
 sprite_t cloud_background_sprite;
 sprite_t missile_sprite;
@@ -36,6 +37,7 @@ void sprite_create(sprite_t *sp, char* path, int width, int height, int nb_image
 void sprite_init (char *background_skin){
 
     sprite_create(&mario_sprite, "../images/mario2.png", 64, 128, 11, RIGHT);
+    sprite_create(&cursor_sprite, "../images/cursor.png", 64, 64, 1, RIGHT);
 
     for (int i = 0; i<3; i++){
         sprintf (name, "../images/%s-%d.png", background_skin, i);

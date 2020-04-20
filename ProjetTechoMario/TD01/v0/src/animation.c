@@ -6,6 +6,7 @@
 #include "constants.h" // A placer ici
 #include "cursor.h" // A placer ici
 #include "mario.h" // A placer ici
+#include "object.h"
 #include "debug.h" // A placer ici
 #include "explosion.h" // A placer ici
 
@@ -19,16 +20,16 @@ int graphics_render_scrolling_object();
 
 void animation_init (void){
     create_mario();
-
-    animation_mobile_object_add (&mario_obj);
+    create_cursor();
+    current_object_focus = &mario_obj;
+    
 }
 
 
 void animation_one_step (int left, int right, int up, int down, int space, int tab){
-    if (tab)
-      printf("tab = %d\n", tab);
     if (game_mode == GAME_MODE_PLAY) {
       animation_mario_moves(&mario_obj, left, right, up, down, space);
+      animation_mario_onestep(&mario_obj);
       // Dans la liste des obj, pour chaque obj lancer la ligne
       // object_class[obj->type].animate_func(&obj)
       for_all_objects(obj) {
@@ -50,6 +51,7 @@ void animation_one_step (int left, int right, int up, int down, int space, int t
     }
     else if (game_mode == GAME_MODE_EDITOR) {
         animation_cursor_moves(&cursor_obj, left, right, up, down, space, tab);
+        animation_cursor_onestep(&cursor_obj);
     }
 }
 
@@ -59,6 +61,7 @@ void animation_render_objects (void){
     for_all_objects (obj) {
         graphics_render_object (obj);
     }
+    graphics_render_object(current_object_focus);
 }
 
 void animation_mobile_object_add (dynamic_object_t *obj){

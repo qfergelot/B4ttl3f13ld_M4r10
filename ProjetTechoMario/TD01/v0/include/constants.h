@@ -12,8 +12,8 @@ extern int game_mode;
 #define WIN_WIDTH   1920 // Width of window
 #define WIN_HEIGHT  1080 //Height of window
 
-#define MAP_WIDTH 400 // Width of map in block
-#define MAP_HEIGHT 30 // Height of map in block
+#define MAP_WIDTH 50 // Width of map in block
+#define MAP_HEIGHT 25 // Height of map in block
 
 #define BLOCK_SIZE 64 // Scale of a block
 #define BLOCK_NUMBER 9 // Number of types of blocks (solid, air, ...)

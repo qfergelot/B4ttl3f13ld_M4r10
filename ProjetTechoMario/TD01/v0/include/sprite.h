@@ -15,6 +15,7 @@
 	} sprite_t;
 
 	extern sprite_t mario_sprite;
+	extern sprite_t cursor_sprite;
 	extern sprite_t tree_background_sprite[3];
 	extern sprite_t cloud_background_sprite;
 	extern sprite_t missile_sprite;

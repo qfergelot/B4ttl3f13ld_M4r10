@@ -9,6 +9,7 @@
 #include "error.h"
 #include "debug.h"
 #include "mario.h"
+#include "cursor.h"
 #include "animation.h"
 #include "missile.h"
 #include "object.h"
@@ -124,11 +125,13 @@ int main (int argc, char **argv)
             case SDLK_e:
               // E : passage en mode Editor
               game_mode = GAME_MODE_EDITOR;
+              current_object_focus = &cursor_obj;
               break;
 
             case SDLK_p:
               // P : passage en mode Play
               game_mode = GAME_MODE_PLAY;
+              current_object_focus = &mario_obj;
               break;
 
             default:

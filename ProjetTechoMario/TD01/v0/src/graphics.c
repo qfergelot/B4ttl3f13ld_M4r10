@@ -73,8 +73,8 @@ void graphics_render_object (dynamic_object_t *obj)
   src.w = (obj->sprite)->display_width;
   src.h = (obj->sprite)->display_height;
 
-  dst.x = obj->x_map - mario_obj.x_map + mario_obj.x_screen;
-  dst.y = obj->y_map - mario_obj.y_map + mario_obj.y_screen;
+  dst.x = obj->x_map - current_object_focus->x_map + current_object_focus->x_screen;
+  dst.y = obj->y_map - current_object_focus->y_map + current_object_focus->y_screen;
   dst.w = (obj->sprite)->display_width / obj->zoom;
   dst.h = (obj->sprite)->display_height / obj->zoom;
 

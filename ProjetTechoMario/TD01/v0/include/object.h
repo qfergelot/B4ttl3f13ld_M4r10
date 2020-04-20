@@ -95,12 +95,16 @@ typedef SDL_TimerID timer_id_t;
 
         int number_piece;
 
+        int cursor_sprite_to_display_index;
+
         timer_id_t timer_id;
 
         //struct list_head *global_chain;
         struct list_head global_chain;
 
     } dynamic_object_t;
+
+    extern dynamic_object_t* current_object_focus;
 
     typedef int (* animate_func_t)(dynamic_object_t *obj);
     typedef void (* timer_func_t)(dynamic_object_t *obj);

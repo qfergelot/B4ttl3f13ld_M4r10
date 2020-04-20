@@ -101,8 +101,8 @@ void map_object_add(char* path, int nb_sprites, int type, int map_object){
 }
 
 void map_render_objects(){
-    int x_camera = (mario_obj.x_map - mario_obj.x_screen);
-    int y_camera = (mario_obj.y_map - mario_obj.y_screen);
+    int x_camera = (current_object_focus->x_map - current_object_focus->x_screen);
+    int y_camera = (current_object_focus->y_map - current_object_focus->y_screen);
     //tmp++;
     //if(tmp == 4){
         static_object[COIN]->anim_step ++;

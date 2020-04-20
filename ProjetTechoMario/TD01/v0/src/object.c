@@ -10,7 +10,7 @@
 
 object_type_t object_class [6];
 
-
+dynamic_object_t* current_object_focus;
 
 void object_init (void){
     //initialisation de object_class
@@ -65,6 +65,7 @@ void object_object_init (dynamic_object_t *obj, sprite_t *sp, int type, int stat
     obj->you_shall_fall = 1;
 
     obj->in_movement = 0;
+    obj->cursor_sprite_to_display_index = AIR;
 
     obj->global_chain.next = &(obj->global_chain);
     obj->global_chain.prev = &(obj->global_chain);

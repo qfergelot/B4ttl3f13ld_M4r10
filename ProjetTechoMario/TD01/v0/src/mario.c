@@ -16,7 +16,7 @@ dynamic_object_t mario_obj;
 }*/
 
 void create_mario(void){
-    object_object_init (&mario_obj, &mario_sprite, OBJECT_TYPE_MARIO, OBJECT_STATE_IN_AIR, LEFT_LIMIT_SCROLLING, 10, 0, 0, RIGHT, 13);
+    object_object_init (&mario_obj, &mario_sprite, OBJECT_TYPE_MARIO, OBJECT_STATE_IN_AIR, LEFT_LIMIT_SCROLLING, 5, 1, 0, RIGHT, 13);
 }
 
 void animation_mario_timer_expired (dynamic_object_t *obj){
@@ -57,6 +57,7 @@ void animation_mario_moves (dynamic_object_t *obj, int left, int right, int up, 
             }
             else{
                 obj->in_movement = 0;
+                obj->direction_factor = 0;
             }
 
             if(up && obj->state == OBJECT_STATE_NORMAL){
@@ -147,6 +148,7 @@ int animation_mario_onestep (dynamic_object_t *obj ){
         obj->ys = 0;
     }
 
+    //Déplacement
     obj->y_screen += obj->ys;
     obj->x_screen += obj->xs;
     obj->x_map += obj->xs;
@@ -157,19 +159,17 @@ int animation_mario_onestep (dynamic_object_t *obj ){
     //printf("%d, %d\n", obj->x_map, obj->y_map);
     //printf("%d, %d\n", obj->x_map/BLOCK_SIZE, obj->y_map/BLOCK_SIZE);
     
-
+    //Camera Mario
     if (obj->x_map >= MAP_WIDTH * BLOCK_SIZE - DECAL || obj->x_map <= DECAL ) obj->you_shall_not_pass = 0;
     if (obj->y_map + obj->sprite->display_height >=  MAP_HEIGHT * BLOCK_SIZE - 3*BLOCK_SIZE/ 2 || obj->y_map < WIN_HEIGHT/5) obj->you_shall_fall = 0;
 
     if (obj->you_shall_not_pass && obj->x_screen < LEFT_LIMIT_SCROLLING) obj->x_screen = LEFT_LIMIT_SCROLLING;
-
     if (obj->you_shall_not_pass && obj->x_screen > RIGHT_LIMIT_SCROLLING) obj->x_screen = RIGHT_LIMIT_SCROLLING;
 
     if (obj->you_shall_fall && obj->y_screen > 4*WIN_HEIGHT/5) obj->y_screen = 4*WIN_HEIGHT/5;
     if (obj->you_shall_fall && obj->y_screen < WIN_HEIGHT/5) obj->y_screen = WIN_HEIGHT/5;
 
     if (obj->x_map < LEFT_MAP_LIMIT) obj->x_map = LEFT_MAP_LIMIT;
-
     if (obj->x_map > RIGHT_MAP_LIMIT) obj->x_map = RIGHT_MAP_LIMIT;
 
     if (obj->y_map < 0) obj->y_map = 0;
