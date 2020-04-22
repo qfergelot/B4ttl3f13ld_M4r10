@@ -11,7 +11,6 @@
 #include "graphics.h"
 #include "mario.h"
 
-int MAX_ALLOWED = 2 * MAP_WIDTH + 1;
 int** map;
 //static int tmp = 0;
 
@@ -42,33 +41,6 @@ void map_new(unsigned width, unsigned height){
             }
         }
     }
-
-
-    map_set(FLOOR, 12, MAP_HEIGHT - 1);
-    map_set(WALL, 19, MAP_HEIGHT - 2);
-    map_set(WALL, 20, MAP_HEIGHT - 2);
-    map_set(WALL, 22, MAP_HEIGHT - 3);
-    map_set(FLOWER, 11, MAP_HEIGHT - 2);
-    map_set(FLOWER2, 10, MAP_HEIGHT - 2);
-    map_set(HERB, 13, MAP_HEIGHT - 2);
-    map_set(FLOOR, 5, MAP_HEIGHT - 18);
-    map_set(FLOOR, 6, MAP_HEIGHT - 15);
-    map_set(FLOOR, 7, MAP_HEIGHT - 12);
-    map_set(FLOOR, 8, MAP_HEIGHT - 9);
-    map_set(FLOOR, 9, MAP_HEIGHT - 6);
-    map_set(FLOOR, 10, MAP_HEIGHT - 3);
-    map_set(GRASS, 9, MAP_HEIGHT - 3);
-    map_set(FLOOR, 8, MAP_HEIGHT - 6);
-    map_set(FLOOR, 7, MAP_HEIGHT- 9);
-    map_set(WALL, 13, MAP_HEIGHT - 5);
-    map_set(COIN, 13, MAP_HEIGHT - 6);
-    map_set(WALL, 14, MAP_HEIGHT - 5);
-    map_set(WALL, 15, MAP_HEIGHT - 5);
-    map_set(COIN, 15, MAP_HEIGHT - 6);
-    map_set(WALL, 17, MAP_HEIGHT - 2);
-    map_set(WALL, 18, MAP_HEIGHT - 2);
-    map_set(WALL, 19, MAP_HEIGHT - 5);
-
 }
 
 void map_allocate(unsigned width, unsigned height){
@@ -165,12 +137,17 @@ void construct_str_line(char* line, int y){
 
 void map_save(){
     int size;
+    int MAX_ALLOWED = 2 * MAP_WIDTH + 1;
     char line[MAX_ALLOWED];
     int fd = open("save_map_default.txt", O_WRONLY|O_CREAT|O_TRUNC, 0644);
 
     //Dimensions
     sprintf(line, "%d %d\n", MAP_WIDTH, MAP_HEIGHT);
     size = write(fd, line, 6);
+    if (size == -1){
+        fprintf(stderr, "Saving issue\n");
+        return;
+    }
     memset(line, 0, sizeof(line));
 
     //Matrice
@@ -179,6 +156,61 @@ void map_save(){
         size = write(fd, line, MAX_ALLOWED);
         memset(line, 0, sizeof(line));
     }
+    close(fd);
+}
+
+void load_map(char* map_to_load){
+    
+    if(map_to_load == NULL){
+        map_to_load = "default_map.txt";
+    }
+
+    char number[5];
+    memset(number, 0, 4);
+    char c = '#';
+    int size = -1;
+
+    int fd = open(map_to_load, O_RDONLY, 0644);
+
+    //GET/SET DIMENSIONS
+    while(1){
+        size += read(fd, &c, 1);
+        if(c == ' ') break;
+        number[size] = c;
+    }
+    dim_w = atoi(number);
+    memset(number, 0, 4);
+    size = -1;
+
+    while(1){
+        size += read(fd, &c, 1);
+        if(c == '\n') break;
+        number[size] = c;
+    }
+    dim_h = atoi(number);
+    memset(number, 0, 4);
+    size = -1;
+
+    //printf("%d, %d\n", MAP_WIDTH, MAP_HEIGHT);
+    //Create map
+    map_new(MAP_WIDTH, MAP_HEIGHT);
+
+    //GET/SET MATRICE
+    for(int y = 0; y<MAP_HEIGHT; y++){
+        for(int x = 0; x<MAP_WIDTH; x++){
+            while(1){ // Each number will be followed by a space
+                size += read(fd, &c, 1);
+                if(c == ' ') break;
+                number[size] = c;
+            }
+            map_set(atoi(number), x, y);
+            memset(number, 0, 4);
+            size = -1;
+        }
+        lseek(fd, 1, SEEK_CUR); // pass the \n
+    }
+
+
 
     close(fd);
 }

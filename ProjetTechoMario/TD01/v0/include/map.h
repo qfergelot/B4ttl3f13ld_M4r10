@@ -18,6 +18,7 @@
     void map_render_objects(void);
     void map_display();
     void map_save();
+    void load_map();
 
     void map_set_at(int map_object, unsigned x_pixel, unsigned y_pixel);
 

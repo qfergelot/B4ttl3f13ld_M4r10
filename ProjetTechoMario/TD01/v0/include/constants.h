@@ -8,12 +8,14 @@ enum {  // Modes de jeu
 };
 
 extern int game_mode;
+extern int dim_w;
+extern int dim_h;
 
 #define WIN_WIDTH   1280 // Width of window
 #define WIN_HEIGHT  720 //Height of window
 
-#define MAP_WIDTH 50 // Width of map in block
-#define MAP_HEIGHT 25 // Height of map in block
+#define MAP_WIDTH dim_w // Width of map in block
+#define MAP_HEIGHT dim_h // Height of map in block
 
 #define BLOCK_SIZE 64 // Scale of a block
 #define BLOCK_NUMBER 9 // Number of types of blocks (solid, air, ...)

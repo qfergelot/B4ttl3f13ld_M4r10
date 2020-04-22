@@ -24,7 +24,9 @@
 static char *progname;
 static char *skin = NULL;
 
-int game_mode;
+int game_mode = GAME_MODE_PLAY;
+int dim_w = 50;
+int dim_h = 25;
 
 typedef void (*func_t) (void*);
 func_t f;
@@ -41,6 +43,7 @@ void usage (int val)
   fprintf (stderr, "\t-s\t| --skin <name>\t\t: use specific background skin\n");
   fprintf (stderr, "\t-d\t| --debug-flags <flags>\t: enable debug messages\n");
   fprintf (stderr, "\t-h\t| --help\t\t: display help\n");
+  fprintf (stderr, "\t-l\t| --load <map_name>\t\t: load a specific map\n");
 
   exit (val);
 }
@@ -50,7 +53,7 @@ int main (int argc, char **argv)
 
   Uint32 render_flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
   char *debug_flags = NULL;
-
+  char *map_to_load = NULL;
   progname = argv[0];
 
   // Filter args
@@ -75,7 +78,14 @@ int main (int argc, char **argv)
       }
       argc--; argv++;
       skin = *argv;
-    } else
+    } else if(!strcmp (*argv, "--load") || !strcmp (*argv, "-l")){
+      if(argc == 1){
+        fprintf (stderr, "Error: map to be loaded missing\n");
+	      usage (1);
+      }
+      argc--; argv++;
+      map_to_load = *argv;
+    }else    
       break;
     argc--; argv++;
   }
@@ -87,9 +97,8 @@ int main (int argc, char **argv)
   graphics_init (render_flags, (skin ? skin : DEFAULT_BACKGROUND_SKIN));
   object_init();
   animation_init();
-  game_mode = GAME_MODE_PLAY;
-
-  map_new(MAP_WIDTH, MAP_HEIGHT);
+  load_map(map_to_load);
+  //map_new(MAP_WIDTH, MAP_HEIGHT);
   //map_display();
   //gen_tim = generator_init();
 
