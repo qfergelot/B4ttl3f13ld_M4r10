@@ -43,7 +43,9 @@ void usage (int val)
   fprintf (stderr, "\t-s\t| --skin <name>\t\t: use specific background skin\n");
   fprintf (stderr, "\t-d\t| --debug-flags <flags>\t: enable debug messages\n");
   fprintf (stderr, "\t-h\t| --help\t\t: display help\n");
-  fprintf (stderr, "\t-l\t| --load <map_name>\t\t: load a specific map\n");
+  fprintf (stderr, "\t-l\t| --load <map_name>\t: load a specific map\n");
+  fprintf (stderr, "\t-w\t| --width\t\t: specify the width of the map (note that if you use this option, the map will be loaded in editor mode)\n");
+  fprintf (stderr, "\t-ht\t| --height\t\t: specify the height of the map (note that if you use this option, the map will be loaded in editor mode)\n");
 
   exit (val);
 }
@@ -54,12 +56,14 @@ int main (int argc, char **argv)
   Uint32 render_flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
   char *debug_flags = NULL;
   char *map_to_load = NULL;
+  int edit_flag = 0;
   progname = argv[0];
 
   // Filter args
   //
   argv++; argc--;
   while (argc > 0) {
+    
     if (!strcmp (*argv, "--no-vsync") || !strcmp (*argv, "-nvs")) {
       render_flags &= ~SDL_RENDERER_PRESENTVSYNC;
     } else if(!strcmp (*argv, "--help") || !strcmp (*argv, "-h")) {
@@ -85,7 +89,24 @@ int main (int argc, char **argv)
       }
       argc--; argv++;
       map_to_load = *argv;
-    }else    
+    }else if(!strcmp (*argv, "--width") || !strcmp (*argv, "-w")){
+      if(argc == 1){
+        fprintf (stderr, "Error: no width inputed\n");
+	      usage (1);
+      }
+      argc--; argv++;
+      dim_w = atoi(*argv);
+      edit_flag = 1;
+    }else if(!strcmp (*argv, "--height") || !strcmp (*argv, "-ht")){
+      //printf("bonj\n");
+      if(argc == 1){
+        fprintf (stderr, "Error: no height inputed\n");
+	      usage (1);
+      }
+      argc--; argv++;
+      dim_h = atoi(*argv);
+      edit_flag = 1;
+    }else   
       break;
     argc--; argv++;
   }
@@ -97,7 +118,11 @@ int main (int argc, char **argv)
   graphics_init (render_flags, (skin ? skin : DEFAULT_BACKGROUND_SKIN));
   object_init();
   animation_init();
-  load_map(map_to_load);
+  if(edit_flag){
+    game_mode = GAME_MODE_EDITOR;
+    map_new(MAP_WIDTH, MAP_HEIGHT);
+    current_object_focus = &cursor_obj;
+  }else load_map(map_to_load);
   //map_new(MAP_WIDTH, MAP_HEIGHT);
   //map_display();
   //gen_tim = generator_init();
