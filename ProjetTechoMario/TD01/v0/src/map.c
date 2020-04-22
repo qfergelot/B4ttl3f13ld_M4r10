@@ -1,6 +1,9 @@
 #include "map.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 #include "constants.h"
 #include "sprite.h"
@@ -8,7 +11,7 @@
 #include "graphics.h"
 #include "mario.h"
 
-
+int MAX_ALLOWED = 2 * MAP_WIDTH + 1;
 int** map;
 //static int tmp = 0;
 
@@ -148,4 +151,34 @@ int get_state_of_object_at(int x_block, int y_block){
 
 int get_state(int x_pixel, int y_pixel){
     return get_state_of_object_at(x_pixel/BLOCK_SIZE, y_pixel/BLOCK_SIZE);
+}
+
+
+void construct_str_line(char* line, int y){
+    char tmp_obj[3];
+    for(int x = 0; x<MAP_WIDTH; x++){
+        sprintf(tmp_obj, "%d ", map_get(x, y));
+        strcat(line, tmp_obj);
+    }
+    strcat(line, "\n");
+}
+
+void map_save(){
+    int size;
+    char line[MAX_ALLOWED];
+    int fd = open("save_map_default.txt", O_WRONLY|O_CREAT|O_TRUNC, 0644);
+
+    //Dimensions
+    sprintf(line, "%d %d\n", MAP_WIDTH, MAP_HEIGHT);
+    size = write(fd, line, 6);
+    memset(line, 0, sizeof(line));
+
+    //Matrice
+    for (int y = 0; y<MAP_HEIGHT; y++){
+        construct_str_line(line, y);
+        size = write(fd, line, MAX_ALLOWED);
+        memset(line, 0, sizeof(line));
+    }
+
+    close(fd);
 }

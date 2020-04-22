@@ -90,7 +90,7 @@ int main (int argc, char **argv)
   game_mode = GAME_MODE_PLAY;
 
   map_new(MAP_WIDTH, MAP_HEIGHT);
-  map_display();
+  //map_display();
   //gen_tim = generator_init();
 
 
@@ -132,6 +132,10 @@ int main (int argc, char **argv)
               // P : passage en mode Play
               game_mode = GAME_MODE_PLAY;
               current_object_focus = &mario_obj;
+              break;
+
+            case SDLK_s:
+              map_save();
               break;
 
             default:
