@@ -1,7 +1,9 @@
 Les plus : 
 - tableaux de static_object = pas beaucoup d'objets aloués
-- commande -w -ht pour démarrer le jeu sur une nouvelle carte en mode édition
-
+- commande -w <width> et -ht <height> pour démarrer le jeu sur une nouvelle carte en mode édition
+- l'appuie sur la touche s sauvegarde la map courante sous forme de fichier ayant le nom save_map_default.txt (quick save -> vraie sauvegarde = renommer ce fichier)
+NE SAUVEGARDE QUE LA MAP (objects statiques)
+- commande -l <map_to_load>
 
 les moins:
 - énormément de temps passé à set up le linux, make, ... on windows
