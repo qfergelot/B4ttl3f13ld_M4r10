@@ -1,3 +1,8 @@
+A spécifier:
+- appuyer sur e pour entrer en mode édition
+- appuyer sur p pour entrer en mode play
+
+
 Les plus : 
 - tableaux de static_object = pas beaucoup d'objets aloués
 - commande -w <width> et -ht <height> pour démarrer le jeu sur une nouvelle carte en mode édition
