@@ -1,0 +1,18 @@
+Les plus : 
+- tableaux de static_object = pas beaucoup d'objets aloués
+- commande -w -ht pour démarrer le jeu sur une nouvelle carte en mode édition
+
+
+les moins:
+- énormément de temps passé à set up le linux, make, ... on windows
+- chargement de map ne test pas si la map à load est conforme
+- chargement de map lis le fichier charactere par character
+
+les bugs:
+- mineur: quand on démarre en mode éditeur, le background bouge
+
+
+les améliorables:
+- ajouter les chars
+- ajouter certains objets dynamiques dans la sauvegarde de map (notamment les chars plus tard)
+- sauvegarde de map dans un fichier binaire (illisible mais pratique)
