@@ -71,4 +71,7 @@ void sprite_clean (void){
     if(text_ouch_sprite.texture != NULL)
         SDL_DestroyTexture (text_ouch_sprite.texture);
 
+    if(cursor_sprite.texture != NULL)
+        SDL_DestroyTexture (cursor_sprite.texture);
+
 }

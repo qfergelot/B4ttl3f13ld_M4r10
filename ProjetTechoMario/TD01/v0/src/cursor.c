@@ -5,25 +5,39 @@
 dynamic_object_t cursor_obj;
 
 void create_cursor(void){
-    object_object_init (&cursor_obj, &cursor_sprite, OBJECT_TYPE_CURSOR, OBJECT_STATE_NORMAL, BLOCK_SIZE*2, BLOCK_SIZE*2, 0, 0, RIGHT, 14);
+    object_object_init (&cursor_obj, &cursor_sprite, OBJECT_TYPE_CURSOR, OBJECT_STATE_NORMAL, BLOCK_SIZE*2, BLOCK_SIZE*2, 0, 0, RIGHT, 25);
 }
 
 void animation_cursor_moves(dynamic_object_t* obj, int left, int right, int up, int down, int space, int tab) {
     obj->xs = 0;
     obj->ys = 0;
     //Mouvement 
-    if (right) obj->xs += BLOCK_SIZE;
-    else if (left) obj->xs -= BLOCK_SIZE; 
-    if(up) obj->ys -= BLOCK_SIZE;
-    else if(down) obj->ys += BLOCK_SIZE;
+    if(right || left || up || down){
+        obj->cd_count++;
+        if(obj->cd_count >= obj->cooldown){
+            if (right) obj->xs += BLOCK_SIZE;
+            else if (left) obj->xs -= BLOCK_SIZE; 
+            if(up) obj->ys -= BLOCK_SIZE;
+            else if(down) obj->ys += BLOCK_SIZE;
+        }
+    }
+
 
     if(tab){
-        obj->cursor_sprite_to_display_index ++;
-        obj->cursor_sprite_to_display_index %= BLOCK_NUMBER;
+        obj->cd_count++;
+        if(obj->cd_count >= obj->cooldown){
+            obj->cd_count = 0;
+            obj->cursor_sprite_to_display_index ++;
+            obj->cursor_sprite_to_display_index %= BLOCK_NUMBER;
+        }
     }
 
     if(space){
-        map_set_at(obj->cursor_sprite_to_display_index, obj->x_map, obj->y_map);
+        obj->cd_count++;
+        if(obj->cd_count >= obj->cooldown){
+            obj->cd_count = 0;
+            map_set_at(obj->cursor_sprite_to_display_index, obj->x_map, obj->y_map);
+        }
     }
     
 
@@ -33,7 +47,7 @@ void animation_cursor_onestep (dynamic_object_t *obj){
 
     //Changer le sprite du curseur
     if (obj->cursor_sprite_to_display_index == AIR){
-        obj->sprite = cursor_obj.sprite;
+        obj->sprite = &cursor_sprite;
     }else
     {
         obj->sprite = static_object[obj->cursor_sprite_to_display_index]->sprite;

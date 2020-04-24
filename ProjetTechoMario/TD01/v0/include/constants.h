@@ -11,8 +11,8 @@ extern int game_mode;
 extern int dim_w;
 extern int dim_h;
 
-#define WIN_WIDTH   1280 // Width of window
-#define WIN_HEIGHT  720 //Height of window
+#define WIN_WIDTH   1920 // Width of window
+#define WIN_HEIGHT  1080 //Height of window
 
 #define MAP_WIDTH dim_w // Width of map in block
 #define MAP_HEIGHT dim_h // Height of map in block
