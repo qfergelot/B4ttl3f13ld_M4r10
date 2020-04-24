@@ -33,11 +33,7 @@ void animation_cursor_moves(dynamic_object_t* obj, int left, int right, int up, 
     }
 
     if(space){
-        obj->cd_count++;
-        if(obj->cd_count >= obj->cooldown){
-            obj->cd_count = 0;
-            map_set_at(obj->cursor_sprite_to_display_index, obj->x_map, obj->y_map);
-        }
+        map_set_at(obj->cursor_sprite_to_display_index, obj->x_map, obj->y_map);
     }
     
 
