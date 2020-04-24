@@ -5,7 +5,7 @@
 dynamic_object_t cursor_obj;
 
 void create_cursor(void){
-    object_object_init (&cursor_obj, &cursor_sprite, OBJECT_TYPE_CURSOR, OBJECT_STATE_NORMAL, BLOCK_SIZE*2, BLOCK_SIZE*2, 0, 0, RIGHT, 25);
+    object_object_init (&cursor_obj, &cursor_sprite, OBJECT_TYPE_CURSOR, OBJECT_STATE_NORMAL, BLOCK_SIZE*2, BLOCK_SIZE*2, 0, 0, RIGHT, 15);
 }
 
 void animation_cursor_moves(dynamic_object_t* obj, int left, int right, int up, int down, int space, int tab) {
@@ -15,6 +15,7 @@ void animation_cursor_moves(dynamic_object_t* obj, int left, int right, int up, 
     if(right || left || up || down){
         obj->cd_count++;
         if(obj->cd_count >= obj->cooldown){
+            obj->cd_count = 0;
             if (right) obj->xs += BLOCK_SIZE;
             else if (left) obj->xs -= BLOCK_SIZE; 
             if(up) obj->ys -= BLOCK_SIZE;
