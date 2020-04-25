@@ -36,7 +36,7 @@ void sprite_create(sprite_t *sp, char* path, int width, int height, int nb_image
 
 void sprite_init (char *background_skin){
 
-    sprite_create(&mario_sprite, "../images/mario2.png", 64, 128, 11, RIGHT);
+    sprite_create(&mario_sprite, "../images/mario.png", 64, 128, 11, RIGHT);
     sprite_create(&cursor_sprite, "../images/cursor.png", 64, 64, 1, RIGHT);
 
     for (int i = 0; i<3; i++){
