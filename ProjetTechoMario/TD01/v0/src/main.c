@@ -16,6 +16,7 @@
 #include "generator.h"
 #include "map.h"
 #include "list.h"
+#include "dropbomb.h"
 
 
 #define DEFAULT_BACKGROUND_SKIN  "trees"
@@ -31,9 +32,6 @@ int dim_h = 25;
 typedef void (*func_t) (void*);
 func_t f;
 timer_id_t gen_tim;
-
-timer_id_t generator_init();
-void generator_clean(timer_id_t id);
 
 void usage (int val)
 {
@@ -172,10 +170,22 @@ int main (int argc, char **argv)
               map_save();
               break;
 
+            case SDLK_d:
+              drop_the_bombs();
+              break;
+
             default:
               ;
           }
           break ;
+
+        /*case SDL_KEYUP:
+          switch (evt.key.keysym.sym) {
+            case SDLK_d:
+              drop_the_bombs();
+              break;
+          }
+          break;  */  
         default: ;
       }
     }

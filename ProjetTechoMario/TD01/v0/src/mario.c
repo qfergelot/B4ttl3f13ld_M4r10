@@ -114,12 +114,22 @@ int animation_mario_onestep (dynamic_object_t *obj ){
         obj->ys = 0;
         obj->state = OBJECT_STATE_NORMAL;
     }
+    else if ((get_state(obj->x_map + 1, obj->y_map + obj->ys + obj->sprite->display_height) == MAP_OBJECT_DESTRUCTIBLE ||
+        get_state(obj->x_map + obj->sprite->display_width - 1, obj->y_map + obj->ys + obj->sprite->display_height) == MAP_OBJECT_DESTRUCTIBLE) && obj->ys > 0)
+    {
+        obj->ys = 0;
+        obj->state = OBJECT_STATE_NORMAL;
+    }
     else obj->state = OBJECT_STATE_IN_AIR;
 
     if(get_state(obj->x_map + obj->xs + 5, obj->y_map + BLOCK_SIZE) == MAP_OBJECT_SOLID ||
         get_state(obj->x_map + obj->xs + obj->sprite->display_width - 5, obj->y_map + BLOCK_SIZE) == MAP_OBJECT_SOLID ||
         get_state(obj->x_map + obj->xs + 5, obj->y_map + obj->sprite->display_height) == MAP_OBJECT_SOLID ||
-        get_state(obj->x_map + obj->xs + obj->sprite->display_width - 5, obj->y_map + obj->sprite->display_height) == MAP_OBJECT_SOLID){
+        get_state(obj->x_map + obj->xs + obj->sprite->display_width - 5, obj->y_map + obj->sprite->display_height) == MAP_OBJECT_SOLID ||
+        get_state(obj->x_map + obj->xs + 5, obj->y_map + BLOCK_SIZE) == MAP_OBJECT_DESTRUCTIBLE ||
+        get_state(obj->x_map + obj->xs + obj->sprite->display_width - 5, obj->y_map + BLOCK_SIZE) == MAP_OBJECT_DESTRUCTIBLE ||
+        get_state(obj->x_map + obj->xs + 5, obj->y_map + obj->sprite->display_height) == MAP_OBJECT_DESTRUCTIBLE ||
+        get_state(obj->x_map + obj->xs + obj->sprite->display_width - 5, obj->y_map + obj->sprite->display_height) == MAP_OBJECT_DESTRUCTIBLE){
         obj->xs = 0;
     }
 
@@ -146,6 +156,9 @@ int animation_mario_onestep (dynamic_object_t *obj ){
     if ((get_state(obj->x_map + 5, obj->y_map) == MAP_OBJECT_SOLID ||
         get_state(obj->x_map + obj->sprite->display_width - 5, obj->y_map) == MAP_OBJECT_SOLID) && obj->ys < 0){
         obj->ys = 0;
+    }else if ((get_state(obj->x_map + 5, obj->y_map) == MAP_OBJECT_DESTRUCTIBLE ||
+        get_state(obj->x_map + obj->sprite->display_width - 5, obj->y_map) == MAP_OBJECT_DESTRUCTIBLE) && obj->ys < 0){
+        obj->ys = 0;
     }
 
     //Déplacement
@@ -166,7 +179,7 @@ int animation_mario_onestep (dynamic_object_t *obj ){
     if (obj->you_shall_not_pass && obj->x_screen < LEFT_LIMIT_SCROLLING) obj->x_screen = LEFT_LIMIT_SCROLLING;
     if (obj->you_shall_not_pass && obj->x_screen > RIGHT_LIMIT_SCROLLING) obj->x_screen = RIGHT_LIMIT_SCROLLING;
 
-    if (obj->you_shall_fall && obj->y_screen > 4*WIN_HEIGHT/5) obj->y_screen = 4*WIN_HEIGHT/5;
+    if (obj->you_shall_fall && obj->y_screen > 5*WIN_HEIGHT/7) obj->y_screen = 5*WIN_HEIGHT/7;
     if (obj->you_shall_fall && obj->y_screen < WIN_HEIGHT/5) obj->y_screen = WIN_HEIGHT/5;
 
     if (obj->x_map < LEFT_MAP_LIMIT) obj->x_map = LEFT_MAP_LIMIT;

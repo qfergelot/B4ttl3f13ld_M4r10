@@ -21,6 +21,7 @@ typedef SDL_TimerID timer_id_t;
         OBJECT_TYPE_TEXT,
         OBJECT_TYPE_TREE,
         OBJECT_TYPE_CURSOR,
+        OBJECT_TYPE_DROP,
         __OBJECT_TYPE_NUM
     };
 
@@ -40,13 +41,14 @@ typedef SDL_TimerID timer_id_t;
         FLOWER,
         FLOWER2,
         HERB,
-        COIN
+        COIN,
+        MARBLE
     };
 
     enum { // PROPRIÉTÉS DES BLOCS
+        MAP_OBJECT_AIR,
         MAP_OBJECT_SOLID,
         MAP_OBJECT_SEMI_SOLID,
-        MAP_OBJECT_AIR,
         MAP_OBJECT_LIQUID,
         MAP_OBJECT_COLLECTIBLE,
         MAP_OBJECT_DESTRUCTIBLE,

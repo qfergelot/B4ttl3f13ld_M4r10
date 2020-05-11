@@ -21,6 +21,7 @@
 	extern sprite_t missile_sprite;
 	extern sprite_t explosion_sprite;
 	extern sprite_t text_ouch_sprite;
+	extern sprite_t drop_sprite;
 
 	// Initialize sprite_t global variables for each sprite
 	void sprite_init (char *background_skin);

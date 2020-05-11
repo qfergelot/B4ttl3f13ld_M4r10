@@ -24,6 +24,7 @@ void map_new(unsigned width, unsigned height){
     map_object_add("../images/grass.png", 1, MAP_OBJECT_SEMI_SOLID, GRASS);
     map_object_add("../images/herb.png", 1, MAP_OBJECT_TRANSPARENT, HERB);
     map_object_add("../images/coin.png", 10, MAP_OBJECT_COLLECTIBLE, COIN);
+    map_object_add("../images/marble.png", 1, MAP_OBJECT_DESTRUCTIBLE, MARBLE);
 
     map_allocate(width, height);
     for (unsigned x = 0; x < width; x++){

@@ -45,6 +45,12 @@ int animation_missile_onestep (dynamic_object_t *obj){
         animation_missile_dead(obj);
     }
 
+    if(get_state(obj->x_map, obj->y_map) == MAP_OBJECT_DESTRUCTIBLE) 
+    {  
+        map_set_at(AIR, obj->x_map, obj->y_map);
+        animation_missile_dead(obj);
+    }
+
     obj->anim_step++;
     obj->anim_step %= obj->sprite->nb_images;
 
