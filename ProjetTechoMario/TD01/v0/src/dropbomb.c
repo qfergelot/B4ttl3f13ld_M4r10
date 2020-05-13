@@ -39,7 +39,7 @@ int animation_dropbomb_onestep (dynamic_object_t *obj){
     obj->y_screen += obj->ys;
     obj->y_map += obj->ys;
 
-    if(obj->y_map + obj->ys >= (MAP_HEIGHT - 1) * BLOCK_SIZE ||
+    if(obj->y_map + obj->ys  + obj->sprite->display_height>= (MAP_HEIGHT) * BLOCK_SIZE ||
         get_state(obj->x_map, obj->y_map + obj->ys) == MAP_OBJECT_SOLID ||
         get_state(obj->x_map, obj->y_map + obj->ys + obj->sprite->display_height) == MAP_OBJECT_SOLID)
     {

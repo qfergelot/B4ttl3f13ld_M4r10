@@ -170,22 +170,22 @@ int main (int argc, char **argv)
               map_save();
               break;
 
-            case SDLK_d:
+            /*case SDLK_d:
               drop_the_bombs();
-              break;
+              break;*/
 
             default:
               ;
           }
           break ;
 
-        /*case SDL_KEYUP:
+        case SDL_KEYUP:
           switch (evt.key.keysym.sym) {
             case SDLK_d:
               drop_the_bombs();
               break;
           }
-          break;  */  
+          break;  
         default: ;
       }
     }
