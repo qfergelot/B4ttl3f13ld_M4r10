@@ -126,18 +126,21 @@ int get_state(int x_pixel, int y_pixel){
 }
 
 
-void construct_str_line(char* line, int y){
-    char tmp_obj[3];
+int construct_str_line(char* line, int y){
+    char tmp_obj[5];
+    int res = 0;
     for(int x = 0; x<MAP_WIDTH; x++){
-        sprintf(tmp_obj, "%d ", map_get(x, y));
+        res += sprintf(tmp_obj, "%d ", map_get(x, y));
         strcat(line, tmp_obj);
     }
     strcat(line, "\n");
+    res ++;
+    return res;
 }
 
 void map_save(){
     int size;
-    int MAX_ALLOWED = 2 * MAP_WIDTH + 1;
+    int MAX_ALLOWED = 4 * MAP_WIDTH + 1;
     char line[MAX_ALLOWED];
     int fd = open("save_map_default.txt", O_WRONLY|O_CREAT|O_TRUNC, 0644);
 
@@ -152,8 +155,8 @@ void map_save(){
 
     //Matrice
     for (int y = 0; y<MAP_HEIGHT; y++){
-        construct_str_line(line, y);
-        size = write(fd, line, MAX_ALLOWED);
+        size = construct_str_line(line, y);
+        size = write(fd, line, size);
         memset(line, 0, sizeof(line));
     }
     close(fd);
