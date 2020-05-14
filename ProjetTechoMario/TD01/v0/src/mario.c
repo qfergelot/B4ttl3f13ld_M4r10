@@ -166,7 +166,7 @@ int animation_mario_onestep (dynamic_object_t *obj ){
     if (obj->you_shall_not_pass && obj->x_screen < LEFT_LIMIT_SCROLLING) obj->x_screen = LEFT_LIMIT_SCROLLING;
     if (obj->you_shall_not_pass && obj->x_screen > RIGHT_LIMIT_SCROLLING) obj->x_screen = RIGHT_LIMIT_SCROLLING;
 
-    if (obj->you_shall_fall && obj->y_screen > 4*WIN_HEIGHT/5) obj->y_screen = 4*WIN_HEIGHT/5;
+    if (obj->you_shall_fall && obj->y_screen > 5*WIN_HEIGHT/7) obj->y_screen = 5*WIN_HEIGHT/7; // 4 et 7
     if (obj->you_shall_fall && obj->y_screen < WIN_HEIGHT/5) obj->y_screen = WIN_HEIGHT/5;
 
     if (obj->x_map < LEFT_MAP_LIMIT) obj->x_map = LEFT_MAP_LIMIT;

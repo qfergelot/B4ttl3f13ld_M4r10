@@ -22,7 +22,7 @@ void graphics_init (Uint32 render_flags, char *background_skin)
   //x_screen_map = 0;
   //y_screen_map = 0;
   // Initialisation de SDL
-  if (SDL_Init (SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER ) != 0){
+  if (SDL_Init (SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_TIMER ) != 0){
     exit_with_error ("SDL_Init");
   }
 
