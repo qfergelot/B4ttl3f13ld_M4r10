@@ -10,9 +10,12 @@
 #include "object.h"
 #include "graphics.h"
 #include "mario.h"
+#include "mine.h"
 
 int** map;
 //static int tmp = 0;
+
+//static_object_t* static_object;
 
 void map_new(unsigned width, unsigned height){
     map_object_add(NULL, 0, MAP_OBJECT_AIR, AIR);
@@ -25,6 +28,7 @@ void map_new(unsigned width, unsigned height){
     map_object_add("../images/herb.png", 1, MAP_OBJECT_TRANSPARENT, HERB);
     map_object_add("../images/coin.png", 10, MAP_OBJECT_COLLECTIBLE, COIN);
     map_object_add("../images/marble.png", 1, MAP_OBJECT_DESTRUCTIBLE, MARBLE);
+    map_object_add("../images/mines.png", 1, MAP_OBJECT_ACTIVABLE, MINE);
 
     map_allocate(width, height);
     for (unsigned x = 0; x < width; x++){
@@ -76,30 +80,6 @@ void map_object_add(char* path, int nb_sprites, int type, int map_object){
     }
 }
 
-void map_render_objects(){
-    int x_camera = (current_object_focus->x_map - current_object_focus->x_screen);
-    int y_camera = (current_object_focus->y_map - current_object_focus->y_screen);
-    //tmp++;
-    //if(tmp == 4){
-        static_object[COIN]->anim_step ++;
-        static_object[COIN]->anim_step %= static_object[COIN]->sprite->nb_images;
-        //tmp = 0;
-    //}
-   
-
-
-    for (int i = x_camera/BLOCK_SIZE; i <= (WIN_WIDTH + x_camera)/BLOCK_SIZE ; i++){
-        for (int j = y_camera/BLOCK_SIZE; j <= (WIN_HEIGHT+ y_camera)/BLOCK_SIZE; j++){
-            if (i < MAP_WIDTH && j < MAP_HEIGHT) {
-                int map_object = map_get(i, j);
-                if (map_object != AIR){
-                    graphics_render_static_object(static_object[map_object], i * BLOCK_SIZE  - x_camera, j * BLOCK_SIZE - y_camera);
-                }
-            }
-        }
-    }
-}
-
 void map_display(){
     for (unsigned y = 0; y < MAP_HEIGHT; y++){
         for (unsigned x = 0; x < MAP_WIDTH; x++){
@@ -126,19 +106,37 @@ int get_state(int x_pixel, int y_pixel){
     return get_state_of_object_at(x_pixel/BLOCK_SIZE, y_pixel/BLOCK_SIZE);
 }
 
+void map_set_maybe_dyn_at(int map_obj, int x_pixel, int y_pixel){
+    switch(map_obj){
+        case MINE:
+            animation_mine_add(x_pixel/BLOCK_SIZE, y_pixel/BLOCK_SIZE);
+            break;
+        /*case TANK:
+            add_tank_animation
+            break;*/
+        default:
+            break;
+            
+    }
+    map_set_at(map_obj, x_pixel, y_pixel);
+}
 
-void construct_str_line(char* line, int y){
-    char tmp_obj[3];
+
+int construct_str_line(char* line, int y){
+    char tmp_obj[5];
+    int res = 0;
     for(int x = 0; x<MAP_WIDTH; x++){
-        sprintf(tmp_obj, "%d ", map_get(x, y));
+        res += sprintf(tmp_obj, "%d ", map_get(x, y));
         strcat(line, tmp_obj);
     }
     strcat(line, "\n");
+    res ++;
+    return res;
 }
 
 void map_save(){
     int size;
-    int MAX_ALLOWED = 2 * MAP_WIDTH + 1;
+    int MAX_ALLOWED = 4 * MAP_WIDTH + 1;
     char line[MAX_ALLOWED];
     int fd = open("save_map_default.txt", O_WRONLY|O_CREAT|O_TRUNC, 0644);
 
@@ -153,8 +151,8 @@ void map_save(){
 
     //Matrice
     for (int y = 0; y<MAP_HEIGHT; y++){
-        construct_str_line(line, y);
-        size = write(fd, line, MAX_ALLOWED);
+        size = construct_str_line(line, y);
+        size = write(fd, line, size);
         memset(line, 0, sizeof(line));
     }
     close(fd);
@@ -204,7 +202,7 @@ void load_map(char* map_to_load){
                 if(c == ' ') break;
                 number[size] = c;
             }
-            map_set(atoi(number), x, y);
+            map_set_maybe_dyn_at(atoi(number), x * BLOCK_SIZE, y * BLOCK_SIZE);
             memset(number, 0, 4);
             size = -1;
         }
@@ -212,6 +210,6 @@ void load_map(char* map_to_load){
     }
 
 
-
+    
     close(fd);
 }

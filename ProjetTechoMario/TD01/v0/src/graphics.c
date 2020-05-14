@@ -64,7 +64,7 @@ void graphics_render_object (dynamic_object_t *obj)
 {
   SDL_Rect src, dst;
   int flip = SDL_FLIP_NONE;
-
+  //printf("%d, %d\n", (obj->sprite)->native_width, (obj->sprite)->display_width);
   int nb_img_ligne = ((obj->sprite)->native_width/(obj->sprite)->display_width);
   //int nb_img_col = ((obj->sprite)->native_height/(obj->sprite)->display_height);
 
@@ -83,6 +83,8 @@ void graphics_render_object (dynamic_object_t *obj)
   SDL_RenderCopyEx(ren, (obj->sprite)->texture, &src, &dst, 0, NULL, flip);
 
 }
+
+
 
 void graphics_render_static_object(static_object_t* obj, int x_map, int y_map){
 
@@ -108,6 +110,30 @@ void graphics_render_static_object(static_object_t* obj, int x_map, int y_map){
 
         SDL_RenderCopy(ren, (obj->sprite)->texture, &src, &dst);
       }
+    }
+}
+
+void map_render_objects(){
+    int x_camera = (current_object_focus->x_map - current_object_focus->x_screen);
+    int y_camera = (current_object_focus->y_map - current_object_focus->y_screen);
+    //tmp++;
+    //if(tmp == 4){
+        static_object[COIN]->anim_step ++;
+        static_object[COIN]->anim_step %= static_object[COIN]->sprite->nb_images;
+        //tmp = 0;
+    //}
+   
+
+
+    for (int i = x_camera/BLOCK_SIZE; i <= (WIN_WIDTH + x_camera)/BLOCK_SIZE ; i++){
+        for (int j = y_camera/BLOCK_SIZE; j <= (WIN_HEIGHT+ y_camera)/BLOCK_SIZE; j++){
+            if (i < MAP_WIDTH && j < MAP_HEIGHT) {
+                int map_object = map_get(i, j);
+                if (map_object != AIR && map_object != MINE){
+                    graphics_render_static_object(static_object[map_object], i * BLOCK_SIZE  - x_camera, j * BLOCK_SIZE - y_camera);
+                }
+            }
+        }
     }
 }
 

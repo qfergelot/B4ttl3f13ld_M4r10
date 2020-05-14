@@ -5,7 +5,7 @@
 dynamic_object_t cursor_obj;
 
 void create_cursor(void){
-    object_object_init (&cursor_obj, &cursor_sprite, OBJECT_TYPE_CURSOR, OBJECT_STATE_NORMAL, BLOCK_SIZE*2, BLOCK_SIZE*2, 0, 0, RIGHT, 15);
+    object_object_init (&cursor_obj, &cursor_sprite, OBJECT_TYPE_CURSOR, OBJECT_STATE_NORMAL, BLOCK_SIZE*2, BLOCK_SIZE*2, 0, 0, RIGHT, 8);
 }
 
 void animation_cursor_moves(dynamic_object_t* obj, int left, int right, int up, int down, int space, int tab) {
@@ -34,10 +34,10 @@ void animation_cursor_moves(dynamic_object_t* obj, int left, int right, int up, 
     }
 
     if(space){
-        map_set_at(obj->cursor_sprite_to_display_index, obj->x_map, obj->y_map);
+        if (map_get(obj->x_map/BLOCK_SIZE, obj->y_map/BLOCK_SIZE) != obj->cursor_sprite_to_display_index){
+            map_set_maybe_dyn_at(obj->cursor_sprite_to_display_index, obj->x_map, obj->y_map);
+        }
     }
-    
-
 }
 
 void animation_cursor_onestep (dynamic_object_t *obj){

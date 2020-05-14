@@ -3,7 +3,7 @@
 #include "SDL_image.h"
 #include <string.h>
 
-
+#include <time.h>
 #include "constants.h"
 #include "graphics.h"
 #include "error.h"
@@ -28,6 +28,8 @@ static char *skin = NULL;
 int game_mode = GAME_MODE_PLAY;
 int dim_w = 50;
 int dim_h = 25;
+
+time_t t;
 
 typedef void (*func_t) (void*);
 func_t f;
@@ -111,7 +113,8 @@ int main (int argc, char **argv)
 
   if (argc > 0)
     usage (1);
-
+    
+  srand((unsigned) time(&t) );
   debug_init (debug_flags);
   graphics_init (render_flags, (skin ? skin : DEFAULT_BACKGROUND_SKIN));
   object_init();

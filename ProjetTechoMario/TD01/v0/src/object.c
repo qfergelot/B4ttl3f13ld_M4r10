@@ -6,10 +6,12 @@
 #include "text.h"
 #include "mario.h"
 #include "dropbomb.h"
+#include "mine.h"
 
 
 
-object_type_t object_class [7];
+object_type_t object_class [8];
+static_object_t* static_object[BLOCK_NUMBER];
 
 dynamic_object_t* current_object_focus;
 
@@ -20,6 +22,7 @@ void object_init (void){
     object_class[OBJECT_TYPE_EXPLOSION].animate_func = animation_explosion_onestep;
     object_class[OBJECT_TYPE_TEXT].animate_func = animation_text_onestep;
     object_class[OBJECT_TYPE_DROP].animate_func = animation_dropbomb_onestep;
+    object_class[OBJECT_TYPE_MINE].animate_func = animation_mine_onestep;
 
     object_class[OBJECT_TYPE_MARIO].timer_func = animation_mario_timer_expired;
     object_class[OBJECT_TYPE_MISSILE].timer_func = NULL;
@@ -31,6 +34,7 @@ void object_init (void){
     object_class[OBJECT_TYPE_EXPLOSION].dead_func = NULL;
     object_class[OBJECT_TYPE_TEXT].dead_func = NULL;
     object_class[OBJECT_TYPE_DROP].dead_func = animation_missile_dead;
+    object_class[OBJECT_TYPE_MINE].dead_func = animation_mine_dead;
 }
 
 void static_object_init(static_object_t *obj, sprite_t *sp, int state){
@@ -72,4 +76,6 @@ void object_object_init (dynamic_object_t *obj, sprite_t *sp, int type, int stat
 
     obj->global_chain.next = &(obj->global_chain);
     obj->global_chain.prev = &(obj->global_chain);
+
+    obj->mine_color = RED;
 }

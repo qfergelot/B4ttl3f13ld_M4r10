@@ -43,11 +43,11 @@ int animation_missile_onestep (dynamic_object_t *obj){
         get_state(obj->x_map + obj->xs + obj->sprite->display_width, obj->y_map + obj->sprite->display_height) == MAP_OBJECT_SOLID)
     {
         animation_missile_dead(obj);
-    }
-
-    if(get_state(obj->x_map, obj->y_map) == MAP_OBJECT_DESTRUCTIBLE) 
-    {  
-        map_set_at(AIR, obj->x_map, obj->y_map);
+    }else if(get_state(obj->x_map - obj->xs, obj->y_map) == MAP_OBJECT_DESTRUCTIBLE ||
+        get_state(obj->x_map - obj->xs, obj->y_map + obj->sprite->display_height) == MAP_OBJECT_DESTRUCTIBLE ||
+        get_state(obj->x_map + obj->xs + obj->sprite->display_width, obj->y_map) == MAP_OBJECT_DESTRUCTIBLE ||
+        get_state(obj->x_map + obj->xs + obj->sprite->display_width, obj->y_map + obj->sprite->display_height) == MAP_OBJECT_DESTRUCTIBLE)
+    {
         animation_missile_dead(obj);
     }
 

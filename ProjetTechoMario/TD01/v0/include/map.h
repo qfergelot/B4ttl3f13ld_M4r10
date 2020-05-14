@@ -21,9 +21,11 @@
     void load_map();
 
     void map_set_at(int map_object, unsigned x_pixel, unsigned y_pixel);
+    void map_set_maybe_dyn_at(int map_obj, int x_pixel, int y_pixel);
 
     int get_state_of_map_object(int map_object);
     int get_state_of_object_at(int x_block, int y_block);
     int get_state(int x_pixel, int y_pixel);
+    
 
 #endif

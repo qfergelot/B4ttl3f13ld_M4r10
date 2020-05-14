@@ -15,6 +15,7 @@ sprite_t missile_sprite;
 sprite_t explosion_sprite;
 sprite_t text_ouch_sprite;
 sprite_t drop_sprite;
+sprite_t mine_sprite;
 char name[128];
 
 void sprite_create(sprite_t *sp, char* path, int width, int height, int nb_images, int direction){
@@ -50,6 +51,7 @@ void sprite_init (char *background_skin){
     sprite_create(&explosion_sprite, "../images/explosion.png", 64, 64, 25, RIGHT);
     sprite_create(&text_ouch_sprite, "../images/ouch.png", 512, 341, 1, RIGHT);
     sprite_create(&drop_sprite, "../images/torpedo.png", 64, 64, 12, RIGHT);
+    sprite_create(&mine_sprite, "../images/mines.png", 64, 64, 10, RIGHT);
 
 }
 

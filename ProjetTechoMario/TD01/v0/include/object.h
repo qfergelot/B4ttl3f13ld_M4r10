@@ -22,6 +22,7 @@ typedef SDL_TimerID timer_id_t;
         OBJECT_TYPE_TREE,
         OBJECT_TYPE_CURSOR,
         OBJECT_TYPE_DROP,
+        OBJECT_TYPE_MINE,
         __OBJECT_TYPE_NUM
     };
 
@@ -42,7 +43,9 @@ typedef SDL_TimerID timer_id_t;
         FLOWER2,
         HERB,
         COIN,
-        MARBLE
+        MARBLE,
+        MINE
+        
     };
 
     enum { // PROPRIÉTÉS DES BLOCS
@@ -53,7 +56,13 @@ typedef SDL_TimerID timer_id_t;
         MAP_OBJECT_COLLECTIBLE,
         MAP_OBJECT_DESTRUCTIBLE,
         MAP_OBJECT_EXPLOSIVE,
-        MAP_OBJECT_TRANSPARENT
+        MAP_OBJECT_TRANSPARENT,
+        MAP_OBJECT_ACTIVABLE
+    };
+
+    enum{
+        RED,
+        GREEN
     };
 
     typedef struct _stat_obj{
@@ -62,7 +71,7 @@ typedef SDL_TimerID timer_id_t;
         int anim_step;
     } static_object_t;
 
-    static_object_t* static_object[BLOCK_NUMBER];
+    extern static_object_t* static_object[BLOCK_NUMBER];
 
     typedef struct _dyn_obj {
         sprite_t *sprite;
@@ -98,6 +107,7 @@ typedef SDL_TimerID timer_id_t;
         int number_piece;
 
         int cursor_sprite_to_display_index;
+        int mine_color;
 
         timer_id_t timer_id;
 

@@ -18,7 +18,7 @@ extern int dim_h;
 #define MAP_HEIGHT dim_h // Height of map in block
 
 #define BLOCK_SIZE 64 // Scale of a block
-#define BLOCK_NUMBER 10 // Number of types of blocks (solid, air, ...)
+#define BLOCK_NUMBER 11 // Number of types of blocks (solid, air, ...)
 
 #define MARIO_SPEED 4 // Horizontal speed of mario
 #define MARIO_JUMP_IMPULSE -22 //Jump Strenght of mario
@@ -35,7 +35,9 @@ extern int dim_h;
 #define LEFT 1 //
 #define RIGHT 0 //
 
-#define RANDMAX = 1280 //
+#define RANDMAX 1280 //
+
+#define MINE_IMAGE_SAME_COLOR 5 // number of image of the same color in the mine.png
 
 
 

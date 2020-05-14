@@ -1,4 +1,5 @@
 #include "explosion.h"
+#include "map.h"
 #include "debug.h"
 #include "animation.h"
 #include "graphics.h"
@@ -18,6 +19,17 @@ void animation_explosion_from_missile_add (dynamic_object_t *missile){
 }
 
 int animation_explosion_onestep (dynamic_object_t *obj){
+
+    if (obj->anim_step == 1){
+        for(int i = -1; i<2; i++){
+            for(int j = -1; j<2; j++){
+                if (get_state(obj->x_map + i*BLOCK_SIZE, obj->y_map + j*BLOCK_SIZE) == MAP_OBJECT_DESTRUCTIBLE){
+                    map_set_at(AIR, obj->x_map + i*BLOCK_SIZE, obj->y_map + j*BLOCK_SIZE);
+                }
+            }
+        }
+    }
+
     obj->anim_step++;
     if(obj->anim_step == obj->sprite->nb_images)
         return 1;
