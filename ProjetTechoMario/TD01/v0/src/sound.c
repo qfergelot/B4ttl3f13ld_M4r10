@@ -6,14 +6,14 @@
 static Mix_Chunk *sounds [NB_SOUNDS];
 static char *sound_files [NB_SOUNDS] =
   {
-    "../sons/bing.wav",
-    "../sons/boum.wav",
-    "../sons/cloc.wav",
-    "../sons/ouh.wav",
-    "../sons/plop.wav",
-    "../sons/pschh.wav",
-    "../sons/shot.wav",
-    "../sons/yeeha.wav"
+    "sons/bing.wav",
+    "sons/boum.wav",
+    "sons/cloc.wav",
+    "sons/ouh.wav",
+    "sons/plop.wav",
+    "sons/pschh.wav",
+    "sons/shot.wav",
+    "sons/yeeha.wav"
   };
 
 Mix_Music *music [SOUND_PLAYLIST_SIZE];
