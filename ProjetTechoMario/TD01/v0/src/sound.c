@@ -1,4 +1,6 @@
 #include <SDL_mixer.h>
+#include <stdlib.h>
+#include <time.h>
 
 #include "sound.h"
 #include "error.h"
@@ -20,7 +22,7 @@ Mix_Music *music [SOUND_PLAYLIST_SIZE];
 
 static int sound_enabled = 1;
 static int music_enabled = 1;
-static int current_track = 0;
+static int current_track;
 
 void sound_init (int enable, int music_ok)
 {
@@ -59,6 +61,9 @@ void sound_init (int enable, int music_ok)
 	      exit_with_error ("Mix_LoadMUS (\"%s\")", name);
     }
   }
+
+  srand(time(NULL));
+  current_track = rand() % SOUND_PLAYLIST_SIZE;
 }
 
 int sound_start_music ()

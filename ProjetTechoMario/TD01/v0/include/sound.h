@@ -2,7 +2,7 @@
 #ifndef SOUND_IS_DEF
 #define SOUND_IS_DEF
 
-#define SOUND_PLAYLIST_SIZE 1
+#define SOUND_PLAYLIST_SIZE 4
 
 void sound_init (int enable, int music_ok);
 void sound_clean ();

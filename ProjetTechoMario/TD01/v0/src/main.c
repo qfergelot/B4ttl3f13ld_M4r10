@@ -170,6 +170,7 @@ int main (int argc, char **argv)
 
             case SDLK_p:
               // P : passage en mode Play
+              play_sound(SOUND_YEEHA);
               sound_resume_music();
               game_mode = GAME_MODE_PLAY;
               current_object_focus = &mario_obj;
@@ -180,7 +181,7 @@ int main (int argc, char **argv)
               break;
 
             case SDLK_m:
-              if (music_on) {
+              if (game_mode == GAME_MODE_PLAY && music_on) {
                 sound_pause_music();
                 music_on = 0;
               }
@@ -188,6 +189,11 @@ int main (int argc, char **argv)
                 sound_resume_music();
                 music_on = 1;
               }
+              break;
+
+            case SDLK_n:
+              if (game_mode == GAME_MODE_PLAY && music_on)
+                sound_next_music();
               break;
 
             default:
