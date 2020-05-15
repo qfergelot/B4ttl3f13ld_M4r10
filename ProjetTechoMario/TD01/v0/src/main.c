@@ -28,6 +28,7 @@ static char *skin = NULL;
 int game_mode = GAME_MODE_PLAY;
 int dim_w = 50;
 int dim_h = 25;
+int music_on = 1;
 
 typedef void (*func_t) (void*);
 func_t f;
@@ -71,15 +72,15 @@ int main (int argc, char **argv)
       usage (0);
     } else if (!strcmp (*argv, "--debug-flags") || !strcmp (*argv, "-d")) {
       if (argc == 1) {
-	fprintf (stderr, "Error: flag list missing\n");
-	usage (1);
+        fprintf (stderr, "Error: flag list missing\n");
+        usage (1);
       }
       argc--; argv++;
       debug_flags = *argv;
     } else if (!strcmp (*argv, "--skin") || !strcmp (*argv, "-s")) {
       if (argc == 1) {
-	fprintf (stderr, "Error: skin name missing\n");
-	usage (1);
+        fprintf (stderr, "Error: skin name missing\n");
+        usage (1);
       }
       argc--; argv++;
       skin = *argv;
@@ -162,18 +163,31 @@ int main (int argc, char **argv)
 
             case SDLK_e:
               // E : passage en mode Editor
+              sound_pause_music();
               game_mode = GAME_MODE_EDITOR;
               current_object_focus = &cursor_obj;
               break;
 
             case SDLK_p:
               // P : passage en mode Play
+              sound_resume_music();
               game_mode = GAME_MODE_PLAY;
               current_object_focus = &mario_obj;
               break;
 
             case SDLK_s:
               map_save();
+              break;
+
+            case SDLK_m:
+              if (music_on) {
+                sound_pause_music();
+                music_on = 0;
+              }
+              else {
+                sound_resume_music();
+                music_on = 1;
+              }
               break;
 
             default:
@@ -196,6 +210,8 @@ int main (int argc, char **argv)
 
     // Refresh screen
     graphics_render ();
+    if (music_on)
+      sound_keep_music();
   }
 
   return 0;

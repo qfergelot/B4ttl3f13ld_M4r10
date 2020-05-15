@@ -20,7 +20,7 @@ Mix_Music *music [SOUND_PLAYLIST_SIZE];
 
 static int sound_enabled = 1;
 static int music_enabled = 1;
-static int current_track = 4;
+static int current_track = 0;
 
 void sound_init (int enable, int music_ok)
 {
