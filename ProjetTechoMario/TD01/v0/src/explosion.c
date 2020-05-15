@@ -23,8 +23,8 @@ int animation_explosion_onestep (dynamic_object_t *obj){
     if (obj->anim_step == 1){
         for(int i = -1; i<2; i++){
             for(int j = -1; j<2; j++){
-                if (get_state(obj->x_map + i*BLOCK_SIZE, obj->y_map + j*BLOCK_SIZE) == MAP_OBJECT_DESTRUCTIBLE){
-                    map_set_at(AIR, obj->x_map + i*BLOCK_SIZE, obj->y_map + j*BLOCK_SIZE);
+                if (get_state(obj->x_map + i*BLOCK_SIZE + 10, obj->y_map + j*BLOCK_SIZE + 10) == MAP_OBJECT_DESTRUCTIBLE){
+                    map_set_at(AIR, obj->x_map + i*BLOCK_SIZE + 10, obj->y_map + j*BLOCK_SIZE + 10);
                 }
             }
         }
