@@ -37,7 +37,7 @@ extern int dim_h;
 
 #define RANDMAX 1280 //
 
-#define MINE_IMAGE_SAME_COLOR 5 // number of image of the same color in the mine.png
+#define MINE_SPRITE_SAME_COLOR 5 // number of sprite of the same color in the mine.png
 
 
 

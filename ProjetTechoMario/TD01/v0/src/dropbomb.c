@@ -1,4 +1,5 @@
 #include "dropbomb.h"
+#include "collision.h"
 #include "missile.h"
 #include "explosion.h"
 #include "constants.h"
@@ -9,9 +10,9 @@
 #include "generator.h"
 
 int max_number = WIN_WIDTH/BLOCK_SIZE;
-int latence_between_drops = 500;
+int latence_between_drops = 400;
 int ptr_i[WIN_WIDTH/BLOCK_SIZE + 1][1];
-timer_id_t id;
+timer_id_t id[WIN_WIDTH/BLOCK_SIZE + 1];
 
 
 void animation_dropbomb_add (void* x){
@@ -51,6 +52,12 @@ int animation_dropbomb_onestep (dynamic_object_t *obj){
     {
         animation_missile_dead(obj);
     }
+    
+    if(current_object_focus->state != OBJECT_STATE_DEAD && collide(obj, current_object_focus)){ // si on est dans cette fonction, on est en mode PLAY. Donc l'object focus sera mario à tous les coups.
+        object_class[current_object_focus->type].dead_func(current_object_focus);
+        animation_missile_dead(obj);
+        
+    }
 
     obj->anim_step++;
     obj->anim_step %= obj->sprite->nb_images;
@@ -75,16 +82,16 @@ Uint32 callback_create_bomb(Uint32 delay, void* param){
     return(0);
 }
 
-void drop_the_bombs(){
+void drop_the_bombs(){    
     int left = current_object_focus->x_map - current_object_focus->x_screen;
     for(int cur = 0; cur < max_number; cur++){
         //animation_dropbomb_add(i*BLOCK_SIZE + left);
         //i[cur_bomb] = (cur_bomb+1)*BLOCK_SIZE + left;
+        generator_clean(id[cur]);
         ptr_i[cur][0] = (cur+1) * BLOCK_SIZE + left;
-        id = generator_init(cur * latence_between_drops, callback_create_bomb, ptr_i[cur]);
+        id[cur] = generator_init(cur * latence_between_drops, callback_create_bomb, ptr_i[cur]);
        // printf("%d\n", cur);
     }
-    generator_clean(id);
 }
 
 

@@ -15,29 +15,40 @@ void animation_mine_add (int x_block, int y_block){
         exit_with_error("Not Enough Memory\n");
 
     PRINT_DEBUG('m', "Malloc done on object %p\n", missile_obj);
-    object_object_init (missile_obj, &mine_sprite, OBJECT_TYPE_MINE, OBJECT_STATE_NORMAL, x_block * BLOCK_SIZE, y_block * BLOCK_SIZE , 0, 0, RIGHT, MINE_IMAGE_SAME_COLOR);
+    object_object_init (missile_obj, &mine_sprite, OBJECT_TYPE_MINE, OBJECT_STATE_NORMAL, x_block * BLOCK_SIZE, y_block * BLOCK_SIZE , 0, 0, RIGHT, 500);
     missile_obj->mine_color = rand() & 1; // Comme il n'y a que deux couleurs c'est ok, avec plus de couleur ce sera un %NB_COLOR
-    missile_obj->anim_step = missile_obj->mine_color * MINE_IMAGE_SAME_COLOR;
+    missile_obj->anim_step = missile_obj->mine_color * MINE_SPRITE_SAME_COLOR;
     animation_mobile_object_add (missile_obj);
 }
 
-void advance_anim(dynamic_object_t* obj){
-    if(obj->anim_step == (obj->mine_color * MINE_IMAGE_SAME_COLOR) + MINE_IMAGE_SAME_COLOR){
-        if(obj->cd_count == obj->cooldown){
-            if(obj->mine_color == GREEN){
-                drop_the_bombs();
-                animation_mine_dead(obj);
-            }else {
-                animation_mine_dead(obj);
-            }
-        }else{
-            obj->cd_count ++;
-            obj->anim_step = obj->mine_color * MINE_IMAGE_SAME_COLOR;
-        }
-    }else{
-        obj->anim_step ++;
-    }
 
+void mine_activate(dynamic_object_t* obj){
+    if(obj->mine_color == GREEN){
+        drop_the_bombs();
+    }else{
+        if(current_object_focus->state != OBJECT_STATE_DEAD && collide(obj, current_object_focus)){
+            object_class[current_object_focus->type].dead_func(current_object_focus);
+        }
+    }
+    generator_clean(obj->timer_id);
+    animation_mine_dead(obj);
+}
+
+Uint32 callback_activate_mine(Uint32 delay, void* param){
+    SDL_Event event;
+    SDL_UserEvent userevent;
+
+    userevent.type = SDL_USEREVENT;
+    userevent.code = 0;
+    userevent.data1 = mine_activate;
+    userevent.data2 = param;
+
+    event.type = SDL_USEREVENT;
+    event.user = userevent;
+
+    SDL_PushEvent(&event);
+
+    return(0);
 }
 
 int animation_mine_onestep (dynamic_object_t *obj){
@@ -51,11 +62,16 @@ int animation_mine_onestep (dynamic_object_t *obj){
     if(!obj->in_movement){
         if (collide(obj, current_object_focus)){
             obj->in_movement = 1;
+            obj->timer_id = generator_init(obj->cooldown, callback_activate_mine, obj);
         }
     }
 
     if(obj->in_movement){ // si la mine est activée, elle ne sera jamais désactivée
-        advance_anim(obj);
+        if(obj->anim_step == (obj->mine_color * MINE_SPRITE_SAME_COLOR) + MINE_SPRITE_SAME_COLOR){
+            obj->anim_step = obj->mine_color * MINE_SPRITE_SAME_COLOR;    
+        }else{
+            obj->anim_step ++;
+        }
     }
 
     return 0;

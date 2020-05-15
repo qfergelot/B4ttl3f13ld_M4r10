@@ -7,7 +7,7 @@ int hitbox_width(dynamic_object_t* obj1, dynamic_object_t* obj2){
     int a2 = a1 + obj1->sprite->display_width;
     int b1 = obj2->x_map;
     int b2 = b1 + obj2->sprite->display_width;
-    return((a1<b1 && b1<a2) || (a1<b2 && b2<a2) || (b1<a1 && a1<b2) || (b1<a2 && a2<b2));
+    return((a1<=b1 && b1<=a2) || (a1<=b2 && b2<=a2) || (b1<a1 && a1<b2) || (b1<a2 && a2<b2));
 }
 
 int hitbox_height(dynamic_object_t* obj1, dynamic_object_t* obj2){
@@ -15,7 +15,7 @@ int hitbox_height(dynamic_object_t* obj1, dynamic_object_t* obj2){
     int a2 = a1 + obj1->sprite->display_height;
     int b1 = obj2->y_map;
     int b2 = b1 + obj2->sprite->display_height;
-    return((a1<b1 && b1<a2) || (a1<b2 && b2<a2) || (b1<a1 && a1<b2) || (b1<a2 && a2<b2));
+    return((a1<=b1 && b1<=a2) || (a1<=b2 && b2<=a2) || (b1<a1 && a1<b2) || (b1<a2 && a2<b2));
 }
 
 int collide(dynamic_object_t* obj1, dynamic_object_t* obj2){
