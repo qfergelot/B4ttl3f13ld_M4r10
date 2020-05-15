@@ -10,6 +10,7 @@
 #include "sprite.h"
 #include "mario.h"
 #include "map.h"
+#include "sound.h"
 
 int tree_offset[3] = {0};
 
@@ -203,6 +204,7 @@ void graphics_clean (void)
 
   sprite_clean();
   animation_clean();
+  sound_clean();
 
   IMG_Quit ();
   SDL_Quit ();

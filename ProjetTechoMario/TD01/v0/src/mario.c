@@ -5,6 +5,7 @@
 #include "map.h"
 #include "timer.h"
 #include "animation.h"
+#include "sound.h"
 
 
 dynamic_object_t mario_obj;
@@ -69,6 +70,7 @@ void animation_mario_moves (dynamic_object_t *obj, int left, int right, int up, 
         //Tir de Missile
         if (space && obj->cd_count == 0){
             obj->cd_count = obj->cooldown;
+            play_sound(SOUND_SHOT);
             animation_missile_add(obj);
         }
 
@@ -124,21 +126,25 @@ int animation_mario_onestep (dynamic_object_t *obj ){
     }
 
     if(get_state(obj->x_map, obj->y_map + BLOCK_SIZE) == MAP_OBJECT_COLLECTIBLE){
+        play_sound(SOUND_YEEHA);
         map_set_at(AIR, obj->x_map, obj->y_map + BLOCK_SIZE);
         mario_obj.number_piece ++;
     }
 
     if (get_state(obj->x_map + obj->sprite->display_width, obj->y_map + BLOCK_SIZE) == MAP_OBJECT_COLLECTIBLE){
+        play_sound(SOUND_YEEHA);
         map_set_at(AIR, obj->x_map + obj->sprite->display_width, obj->y_map + BLOCK_SIZE);
         mario_obj.number_piece ++;
     }
 
     if(get_state(obj->x_map, obj->y_map + 2*BLOCK_SIZE) == MAP_OBJECT_COLLECTIBLE ){
+        play_sound(SOUND_YEEHA);
         map_set_at(AIR, obj->x_map, obj->y_map + 2*BLOCK_SIZE);
         mario_obj.number_piece ++;
     }
 
     if (get_state(obj->x_map + obj->sprite->display_width, obj->y_map + 2*BLOCK_SIZE) == MAP_OBJECT_COLLECTIBLE){
+        play_sound(SOUND_YEEHA);
         map_set_at(AIR, obj->x_map + obj->sprite->display_width, obj->y_map + 2*BLOCK_SIZE);
         mario_obj.number_piece ++;
     }
@@ -180,7 +186,7 @@ int animation_mario_onestep (dynamic_object_t *obj ){
         obj->anim_step %= obj->sprite->nb_images;
     }
 
-    //Cooldaown missile
+    //Cooldown missile
     if (obj->cd_count > 0){
         obj->cd_count --;
     }

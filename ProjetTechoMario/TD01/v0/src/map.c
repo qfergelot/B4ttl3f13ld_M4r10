@@ -16,14 +16,14 @@ int** map;
 
 void map_new(unsigned width, unsigned height){
     map_object_add(NULL, 0, MAP_OBJECT_AIR, AIR);
-    map_object_add("../images/wall.png", 1, MAP_OBJECT_SOLID, WALL);
-    map_object_add("../images/ground.png", 1, MAP_OBJECT_SOLID, GROUND);
-    map_object_add("../images/floor.png", 1, MAP_OBJECT_SEMI_SOLID, FLOOR);
-    map_object_add("../images/flower.png", 1, MAP_OBJECT_TRANSPARENT, FLOWER);
-    map_object_add("../images/flower2.png", 1, MAP_OBJECT_TRANSPARENT, FLOWER2);
-    map_object_add("../images/grass.png", 1, MAP_OBJECT_SEMI_SOLID, GRASS);
-    map_object_add("../images/herb.png", 1, MAP_OBJECT_TRANSPARENT, HERB);
-    map_object_add("../images/coin.png", 10, MAP_OBJECT_COLLECTIBLE, COIN);
+    map_object_add("images/wall.png", 1, MAP_OBJECT_SOLID, WALL);
+    map_object_add("images/ground.png", 1, MAP_OBJECT_SOLID, GROUND);
+    map_object_add("images/floor.png", 1, MAP_OBJECT_SEMI_SOLID, FLOOR);
+    map_object_add("images/flower.png", 1, MAP_OBJECT_TRANSPARENT, FLOWER);
+    map_object_add("images/flower2.png", 1, MAP_OBJECT_TRANSPARENT, FLOWER2);
+    map_object_add("images/grass.png", 1, MAP_OBJECT_SEMI_SOLID, GRASS);
+    map_object_add("images/herb.png", 1, MAP_OBJECT_TRANSPARENT, HERB);
+    map_object_add("images/coin.png", 10, MAP_OBJECT_COLLECTIBLE, COIN);
 
     map_allocate(width, height);
     for (unsigned x = 0; x < width; x++){

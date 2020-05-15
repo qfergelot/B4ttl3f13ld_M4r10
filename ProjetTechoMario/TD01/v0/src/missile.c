@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "error.h"
 #include "map.h"
+#include "sound.h"
 
 
 void animation_missile_add (dynamic_object_t *obj){
@@ -52,7 +53,7 @@ int animation_missile_onestep (dynamic_object_t *obj){
 }
 
 void animation_missile_dead (dynamic_object_t* obj){
-    //printf("%d, %d\n", obj->x_map, obj->y_map);
+    play_sound(SOUND_BOUM);
     obj->state = OBJECT_STATE_DESTROYED;
     animation_explosion_from_missile_add(obj);
 }
