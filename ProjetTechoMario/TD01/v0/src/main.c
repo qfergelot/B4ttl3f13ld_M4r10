@@ -120,7 +120,7 @@ int main (int argc, char **argv)
   graphics_init (render_flags, (skin ? skin : DEFAULT_BACKGROUND_SKIN));
   object_init();
   animation_init();
-  // sound_init(1, 1);
+  sound_init(1, 1);
   if (edit_flag) {
       game_mode = GAME_MODE_EDITOR;
       map_new(MAP_WIDTH, MAP_HEIGHT);
