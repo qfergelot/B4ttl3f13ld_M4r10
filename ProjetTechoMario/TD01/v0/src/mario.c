@@ -36,7 +36,6 @@ void animation_dead_mario (dynamic_object_t* obj){
     obj->state = OBJECT_STATE_DEAD;
     animation_mario_timer_expired(obj);
     animation_timer_add (obj, 100);
-    animation_text_add(obj);
 }
 
 void animation_mario_moves (dynamic_object_t *obj, int left, int right, int up, int down, int space){
@@ -127,24 +126,28 @@ int animation_mario_onestep (dynamic_object_t *obj ){
 
     if(get_state(obj->x_map, obj->y_map + BLOCK_SIZE) == MAP_OBJECT_COLLECTIBLE){
         play_sound(SOUND_YEEHA);
+        animation_text_add(obj);
         map_set_at(AIR, obj->x_map, obj->y_map + BLOCK_SIZE);
         mario_obj.number_piece ++;
     }
 
     if (get_state(obj->x_map + obj->sprite->display_width, obj->y_map + BLOCK_SIZE) == MAP_OBJECT_COLLECTIBLE){
         play_sound(SOUND_YEEHA);
+        animation_text_add(obj);
         map_set_at(AIR, obj->x_map + obj->sprite->display_width, obj->y_map + BLOCK_SIZE);
         mario_obj.number_piece ++;
     }
 
     if(get_state(obj->x_map, obj->y_map + 2*BLOCK_SIZE) == MAP_OBJECT_COLLECTIBLE ){
         play_sound(SOUND_YEEHA);
+        animation_text_add(obj);
         map_set_at(AIR, obj->x_map, obj->y_map + 2*BLOCK_SIZE);
         mario_obj.number_piece ++;
     }
 
     if (get_state(obj->x_map + obj->sprite->display_width, obj->y_map + 2*BLOCK_SIZE) == MAP_OBJECT_COLLECTIBLE){
         play_sound(SOUND_YEEHA);
+        animation_text_add(obj);
         map_set_at(AIR, obj->x_map + obj->sprite->display_width, obj->y_map + 2*BLOCK_SIZE);
         mario_obj.number_piece ++;
     }

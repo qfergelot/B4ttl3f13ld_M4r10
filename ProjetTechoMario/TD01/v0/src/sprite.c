@@ -36,18 +36,18 @@ void sprite_create(sprite_t *sp, char* path, int width, int height, int nb_image
 
 void sprite_init (char *background_skin){
 
-    sprite_create(&mario_sprite, "../images/mario.png", 64, 128, 11, RIGHT);
-    sprite_create(&cursor_sprite, "../images/cursor.png", 64, 64, 1, RIGHT);
+    sprite_create(&mario_sprite, "images/mario.png", 64, 128, 11, RIGHT);
+    sprite_create(&cursor_sprite, "images/cursor.png", 64, 64, 1, RIGHT);
 
     for (int i = 0; i<3; i++){
-        sprintf (name, "../images/%s-%d.png", background_skin, i);
+        sprintf (name, "images/%s-%d.png", background_skin, i);
         sprite_create(&tree_background_sprite[i], name, 1024, WIN_HEIGHT, 1, 1);
     }
 
-    sprite_create(&cloud_background_sprite, "../images/trees-background.png", 1024, WIN_HEIGHT, 1, 1);
-    sprite_create(&missile_sprite, "../images/missiled.png", 64, 64, 12, RIGHT);
-    sprite_create(&explosion_sprite, "../images/explosion.png", 64, 64, 25, RIGHT);
-    sprite_create(&text_ouch_sprite, "../images/ouch.png", 512, 341, 1, RIGHT);
+    sprite_create(&cloud_background_sprite, "images/trees-background.png", 1024, WIN_HEIGHT, 1, 1);
+    sprite_create(&missile_sprite, "images/missiled.png", 64, 64, 12, RIGHT);
+    sprite_create(&explosion_sprite, "images/explosion.png", 64, 64, 25, RIGHT);
+    sprite_create(&text_ouch_sprite, "images/yeeha.png", 512, 301, 1, RIGHT);
 
 }
 
